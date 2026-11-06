@@ -1592,39 +1592,9 @@ data.Notepads = [
 ];
 
 function normalizeCatalog(){
-  const prefixes = {
-    Pins: 'PIN',
-    Keychains: 'KEY',
-    Accessories: 'ACC',
-    Ashtray: 'ASH',
-    Plushies: 'PLU',
-    Crochet: 'CRO',
-    Clay: 'CLA',
-    Notepads: 'NOT'
-  };
-
-  Object.keys(data).forEach(category => {
-    const items = [...(data[category] || [])].sort((a, b) =>
-      String(a.name || '').localeCompare(String(b.name || ''), undefined, { sensitivity: 'base' })
-    );
-
-    items.forEach((item, index) => {
-      const prefix = prefixes[category] || category.slice(0, 3).toUpperCase();
-      item.id = `${prefix}-${String(index + 1).padStart(3, '0')}`;
-
-      if (Array.isArray(item.variants)) {
-        item.variants.forEach((variant, variantIndex) => {
-          variant.id = `${prefix}-${String(100 + variantIndex + 1).padStart(3, '0')}`;
-        });
-      }
-    });
-
-    data[category] = items;
-  });
+  // Keep explicit item IDs from the sheet. Do not auto-rewrite IDs.
+  return;
 }
-
-normalizeCatalog();
-normalizeCatalog();
 
 let previewIndex = 0;
 let previewItems = [];
