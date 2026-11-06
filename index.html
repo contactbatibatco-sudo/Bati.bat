@@ -1695,9 +1695,9 @@ let previewIndex = 0;
 let previewItems = [];
 let currentSearch = '';
 let cart = [];
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbw2vdM08OI9gqNK5bhlMXJ5tCp7U8jPRGnYXktF14HN8_U9g85902EHTkNiExi-r8Mj/exec';
+const GOOGLE_SHEET_URL = 'https://bati-bat-proxy.contact-batibatco.workers.dev/';
 const CONTACT_EMAIL = 'contact.batibatco@gmail.com';
-const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbw2vdM08OI9gqNK5bhlMXJ5tCp7U8jPRGnYXktF14HN8_U9g85902EHTkNiExi-r8Mj/exec';
+const CONTACT_EMAIL_URL = 'https://bati-bat-proxy.contact-batibatco.workers.dev/';
 
 
 function formatMoney(value){
@@ -2371,6 +2371,14 @@ function renderShop(){
 renderShopMenu();
 renderHomePreview();
 refreshInventory().catch(() => {});
+
+// Auto-refresh stock every 60 seconds while the Shop page is open
+setInterval(async () => {
+  const shop = document.getElementById('shop');
+  if (!shop || !shop.classList.contains('active')) return;
+  const ok = await refreshInventory();
+  if (ok) renderShop();
+}, 60000);
 </script>
 
 </body>
