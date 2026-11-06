@@ -1208,14 +1208,24 @@ let data={
 "Accessories":[],
 "Ashtray":[],
 "Plushies":[],
-"Stickers":[],
 "Crochet":[],
 "Clay":[],
 "Notepads":[]
 }; 
 
 function itemImage(folder, filename){
-  return `./ITEMS/${folder}/${encodeURIComponent(filename)}`;
+  const normalizedFolder = String(folder || '').trim();
+  const lowerFolder = normalizedFolder.toLowerCase();
+
+  const folderPath = lowerFolder === 'clay'
+    ? 'CLAY'
+    : lowerFolder === 'crochet'
+      ? 'Crochet'
+      : normalizedFolder === 'ITEMS'
+        ? 'ITEMS'
+        : `ITEMS/${normalizedFolder}`;
+
+  return `./${folderPath}/${encodeURIComponent(filename)}`;
 }
 
 function openImageViewer(src, alt, images = [], currentIndex = 0){
