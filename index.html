@@ -50,6 +50,27 @@ opacity:0;
 animation:toastIn 0.22s ease forwards;
 }
 
+.checkout-success-banner {
+  display:none;
+  margin:14px 0 20px;
+  padding:16px 18px;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(30,76,42,0.95), rgba(21,49,41,0.95));
+  border:1px solid rgba(136,224,149,0.45);
+  color:#f5fff6;
+  box-shadow:0 16px 32px rgba(0,0,0,0.18);
+}
+
+.checkout-success-banner.visible {
+  display:block;
+}
+
+.checkout-success-banner strong {
+  display:block;
+  font-size:1.05rem;
+  margin-bottom:6px;
+}
+
 .toast.success{
 background:rgba(26,66,35,0.96);
 border-color:rgba(123,206,132,0.4);
@@ -1073,7 +1094,7 @@ padding:16px;
 </nav>
 
 <dialog class="image-viewer" id="imageViewer" aria-label="Product image viewer" onclick="closeImageViewerOnBackdrop(event)">
-  <button class="image-viewer-close" type="button" aria-label="Close image viewer" onclick="closeImageViewer()">Ã—</button>
+  <button class="image-viewer-close" type="button" aria-label="Close image viewer" onclick="closeImageViewer()">×</button>
   <img id="imageViewerImage" alt="">
   <button class="image-viewer-next" id="imageViewerNext" type="button" aria-label="Next product image">Next</button>
 </dialog>
@@ -1088,8 +1109,8 @@ padding:16px;
   <div class="preview-header">
     <h2>Shop Preview</h2>
     <div class="preview-controls">
-      <button onclick="previewSlide(-1)" aria-label="Previous preview">â€¹</button>
-      <button onclick="previewSlide(1)" aria-label="Next preview">â€º</button>
+      <button onclick="previewSlide(-1)" aria-label="Previous preview">‹</button>
+      <button onclick="previewSlide(1)" aria-label="Next preview">›</button>
     </div>
   </div>
   <div class="preview-track" id="previewTrack"></div>
@@ -1109,11 +1130,11 @@ padding:16px;
   <div class="cart-row" id="cartItems"></div>
   <aside class="order-summary">
     <h3>Order Summary</h3>
-    <p>Subtotal: <strong id="subtotal">â‚±0.00</strong></p>
+    <p>Subtotal: <strong id="subtotal">₱0.00</strong></p>
     <p>Shipping: <strong>Calculated at checkout</strong></p>
     <div class="total-row">
       <span>Total</span>
-      <strong id="total">â‚±0.00</strong>
+      <strong id="total">₱0.00</strong>
     </div>
     <button class="nav-btn" onclick="show('checkout')">Proceed to Checkout</button>
   </aside>
@@ -1122,6 +1143,10 @@ padding:16px;
 
 <section id="checkout">
 <h1>Checkout</h1>
+<div id="checkoutSuccessBanner" class="checkout-success-banner" aria-live="polite">
+  <strong>Order placed successfully!</strong>
+  Your order has been sent. Please check your email and send your payment proof to @bati.bat_co on Instagram.
+</div>
 <div class="contact-wrap">
   <div class="contact-card">
     <h2>Order Details</h2>
@@ -1180,11 +1205,11 @@ padding:16px;
     <h2>About BATI.BAT</h2>
 
     <p>
-    BATI.BAT is a creative craft brand rooted in Filipino identity, mythology, and introspective storytelling. The name is derived from the Philippine mythological creature Batibat, often described in folklore as a demon associated with sleep paralysis. In traditional narratives, the Batibat is fearedâ€”appearing in moments between sleep and waking, where dreams blur with reality.
+    BATI.BAT is a creative craft brand rooted in Filipino identity, mythology, and introspective storytelling. The name is derived from the Philippine mythological creature Batibat, often described in folklore as a demon associated with sleep paralysis. In traditional narratives, the Batibat is feared—appearing in moments between sleep and waking, where dreams blur with reality.
     </p>
 
     <p>
-    The name comes from Batibat, a creature from Philippine folklore associated with sleep paralysis and the strange space between dreaming and waking. Rather than portraying the Batibat solely as something frightening, BATI.BAT reimagines it as a symbol of the subconsciousâ€”where imagination, darkness, vulnerability, curiosity, and creativity meet.
+    The name comes from Batibat, a creature from Philippine folklore associated with sleep paralysis and the strange space between dreaming and waking. Rather than portraying the Batibat solely as something frightening, BATI.BAT reimagines it as a symbol of the subconscious—where imagination, darkness, vulnerability, curiosity, and creativity meet.
     </p>
 
     <p>
@@ -1196,7 +1221,7 @@ padding:16px;
     </P>
 
     <p>
-      BATI.BAT is ultimately a collection of things I find interesting enough to shareâ€”whether I made them myself or found them somewhere along the way.
+      BATI.BAT is ultimately a collection of things I find interesting enough to share—whether I made them myself or found them somewhere along the way.
     </p>
   </div>
 
@@ -1208,7 +1233,7 @@ padding:16px;
     </p>
 
     <p>
-    I started my first small shop in 2022 under the name Moirae, where I sold crochet pieces alongside a small baking business I shared with my sister. It began quite simplyâ€”I wanted to make things for the people I cared about and, eventually, share them with others.
+    I started my first small shop in 2022 under the name Moirae, where I sold crochet pieces alongside a small baking business I shared with my sister. It began quite simply—I wanted to make things for the people I cared about and, eventually, share them with others.
     </p>
 
     <p>
@@ -1255,10 +1280,10 @@ padding:16px;
     <h2>Reach out</h2>
     <div class="contact-detail"><strong>Instagram:</strong> @bati_bat.co</div>
     <div class="contact-detail"><strong>Email:</strong> <a href="mailto:batibat.co@gmail.com" style="color:#fff;">batibat.co@gmail.com</a></div>
-    <div class="contact-detail"><strong>Response time:</strong> usually within 24â€“48 hours</div>
+    <div class="contact-detail"><strong>Response time:</strong> usually within 24–48 hours</div>
     <div class="contact-detail"><strong>For orders:</strong> include product name and proof of payment</div>
     <div class="info-box">
-      <p>For quick questions about commissions, shipping, or custom orders, send a DM on Instagram or email us directly. Weâ€™ll get back to you as soon as possible.</p>
+      <p>For quick questions about commissions, shipping, or custom orders, send a DM on Instagram or email us directly. We’ll get back to you as soon as possible.</p>
     </div>
   </div>
 </div>
@@ -1273,6 +1298,10 @@ function show(id){
   const target = document.getElementById(id);
   if (!target) return;
   target.classList.add("active");
+
+  if (id !== 'checkout') {
+    hideCheckoutSuccess();
+  }
 
   if(id==="shop") {
     refreshInventory().finally(() => renderShop());
@@ -1671,7 +1700,7 @@ const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbz-HgksjfAkzG
 
 
 function formatMoney(value){
-  return `â‚±${Number(value).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `₱${Number(value).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function buildPreviewItems(){
@@ -1726,7 +1755,7 @@ function updatePreview(){
       <div>
         <h3>${item.name}</h3>
         <p>${item.category}</p>
-        <p class="price">â‚±${item.price}.00</p>
+        <p class="price">₱${item.price}.00</p>
       </div>
     `;
     track.appendChild(card);
@@ -1775,6 +1804,20 @@ function showToast(message, type = 'info', duration = 3500) {
   }, duration);
 }
 
+function showCheckoutSuccess(message = 'Order placed successfully!') {
+  const banner = document.getElementById('checkoutSuccessBanner');
+  if (!banner) return;
+
+  banner.innerHTML = `<strong>${message}</strong>Your order has been sent. Please check your email and send your payment proof to @bati.bat_co on Instagram.`;
+  banner.classList.add('visible');
+}
+
+function hideCheckoutSuccess() {
+  const banner = document.getElementById('checkoutSuccessBanner');
+  if (!banner) return;
+  banner.classList.remove('visible');
+}
+
 function showError(message) {
   showToast(message, 'error', 5000);
 }
@@ -1818,7 +1861,7 @@ function updateVariantCard(select) {
   const stock = Number(option.dataset.stock || 0);
 
   if (productImage) productImage.src = option.dataset.image || '';
-  if (productPrice) productPrice.textContent = `â‚±${option.dataset.price}.00`;
+  if (productPrice) productPrice.textContent = `₱${option.dataset.price}.00`;
 
   if (productStock) {
     if (stock <= 0) {
@@ -1923,8 +1966,8 @@ function renderCart(){
 
   if (!cart.length) {
     cartItems.innerHTML = '<div class="info-box"><p>Your cart is empty.</p></div>';
-    subtotalEl.textContent = 'â‚±0.00';
-    totalEl.textContent = 'â‚±0.00';
+    subtotalEl.textContent = '₱0.00';
+    totalEl.textContent = '₱0.00';
     return;
   }
 
@@ -1948,7 +1991,7 @@ function renderCart(){
       </div>
       <div class="cart-actions">
         <div class="qty-stepper">
-          <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, -1)">âˆ’</button>
+          <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, -1)">−</button>
           <span>${item.qty}</span>
           <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, 1)">+</button>
         </div>
@@ -2046,11 +2089,15 @@ async function submitOrder(){
 
     if (response.ok && result.success === true) {
       showSuccess('Order submitted successfully!');
+      showCheckoutSuccess('Order placed successfully!');
       cart = [];
       renderCart();
+      document.getElementById('checkoutName').value = '';
+      document.getElementById('checkoutEmail').value = '';
+      document.getElementById('checkoutAddress').value = '';
       await refreshInventory();
       renderShop();
-      show('shop');
+      show('checkout');
       return;
     }
 
@@ -2202,7 +2249,7 @@ function createProductCard(cat, productEntry){
       <h3>${p.name}</h3>
       ${p.description ? `<p class="product-description">${p.description}</p>` : ''}
       ${renderVariantSelector(p)}
-      <p class="product-price">â‚±${variant.price}.00</p>
+      <p class="product-price">₱${variant.price}.00</p>
       ${currentStock !== undefined && currentStock !== null ? `<p class="product-stock ${isSoldOut ? 'sold-out' : ''}">${isSoldOut ? 'Sold out' : `Stock: ${currentStock}`}</p>` : ''}
       <button class="buy-btn ${isSoldOut ? 'is-disabled' : ''}" ${isSoldOut ? 'disabled' : ''} onclick="addToCartFromCard(this, '${cat}', ${index});">${isSoldOut ? 'Sold out' : 'Add to Cart'}</button>
     </div>
