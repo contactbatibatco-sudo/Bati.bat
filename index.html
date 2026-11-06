@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -20,6 +20,53 @@ background:#232530;
 color:white;
 font-family:'Montserrat',sans-serif;
 overflow-x:hidden;
+}
+
+.toast-container{
+position:fixed;
+right:16px;
+bottom:20px;
+z-index:2000;
+display:flex;
+flex-direction:column;
+gap:10px;
+pointer-events:none;
+}
+
+.toast{
+min-width:260px;
+max-width:min(88vw,420px);
+padding:14px 16px;
+border-radius:14px;
+background:rgba(35,37,48,0.96);
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 16px 36px rgba(0,0,0,0.34);
+color:#fff;
+font-size:14px;
+line-height:1.5;
+pointer-events:auto;
+transform:translateY(12px);
+opacity:0;
+animation:toastIn 0.22s ease forwards;
+}
+
+.toast.success{
+background:rgba(26,66,35,0.96);
+border-color:rgba(123,206,132,0.4);
+}
+
+.toast.error{
+background:rgba(80,23,23,0.96);
+border-color:rgba(255,158,158,0.35);
+}
+
+.toast.info{
+background:rgba(35,37,48,0.96);
+}
+
+@keyframes toastIn{
+from{opacity:0; transform:translateY(12px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 section#home{
@@ -579,9 +626,25 @@ cursor:not-allowed;
 opacity:0.75;
 }
 
+.product-stock{
+margin:10px 0 0;
+padding:6px 10px;
+display:inline-flex;
+align-items:center;
+width:auto;
+border-radius:999px;
+background:rgba(255,255,255,0.08);
+color:#f7e8d3;
+font-size:12px;
+font-weight:700;
+letter-spacing:0.03em;
+}
+
 .product-stock.sold-out{
-color:#ffb0b0;
-font-weight:600;
+background:rgba(204,102,102,0.18);
+color:#ffd3d3;
+border:1px solid rgba(255,170,170,0.25);
+font-weight:700;
 }
 
 .info-box,.cart-card{
@@ -983,6 +1046,8 @@ padding:16px;
 
 <body>
 
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
 <nav>
 
 <div class="nav-left">
@@ -1008,7 +1073,7 @@ padding:16px;
 </nav>
 
 <dialog class="image-viewer" id="imageViewer" aria-label="Product image viewer" onclick="closeImageViewerOnBackdrop(event)">
-  <button class="image-viewer-close" type="button" aria-label="Close image viewer" onclick="closeImageViewer()">×</button>
+  <button class="image-viewer-close" type="button" aria-label="Close image viewer" onclick="closeImageViewer()">Ã—</button>
   <img id="imageViewerImage" alt="">
   <button class="image-viewer-next" id="imageViewerNext" type="button" aria-label="Next product image">Next</button>
 </dialog>
@@ -1023,8 +1088,8 @@ padding:16px;
   <div class="preview-header">
     <h2>Shop Preview</h2>
     <div class="preview-controls">
-      <button onclick="previewSlide(-1)" aria-label="Previous preview">‹</button>
-      <button onclick="previewSlide(1)" aria-label="Next preview">›</button>
+      <button onclick="previewSlide(-1)" aria-label="Previous preview">â€¹</button>
+      <button onclick="previewSlide(1)" aria-label="Next preview">â€º</button>
     </div>
   </div>
   <div class="preview-track" id="previewTrack"></div>
@@ -1044,11 +1109,11 @@ padding:16px;
   <div class="cart-row" id="cartItems"></div>
   <aside class="order-summary">
     <h3>Order Summary</h3>
-    <p>Subtotal: <strong id="subtotal">₱0.00</strong></p>
+    <p>Subtotal: <strong id="subtotal">â‚±0.00</strong></p>
     <p>Shipping: <strong>Calculated at checkout</strong></p>
     <div class="total-row">
       <span>Total</span>
-      <strong id="total">₱0.00</strong>
+      <strong id="total">â‚±0.00</strong>
     </div>
     <button class="nav-btn" onclick="show('checkout')">Proceed to Checkout</button>
   </aside>
@@ -1115,11 +1180,11 @@ padding:16px;
     <h2>About BATI.BAT</h2>
 
     <p>
-    BATI.BAT is a creative craft brand rooted in Filipino identity, mythology, and introspective storytelling. The name is derived from the Philippine mythological creature Batibat, often described in folklore as a demon associated with sleep paralysis. In traditional narratives, the Batibat is feared—appearing in moments between sleep and waking, where dreams blur with reality.
+    BATI.BAT is a creative craft brand rooted in Filipino identity, mythology, and introspective storytelling. The name is derived from the Philippine mythological creature Batibat, often described in folklore as a demon associated with sleep paralysis. In traditional narratives, the Batibat is fearedâ€”appearing in moments between sleep and waking, where dreams blur with reality.
     </p>
 
     <p>
-    The name comes from Batibat, a creature from Philippine folklore associated with sleep paralysis and the strange space between dreaming and waking. Rather than portraying the Batibat solely as something frightening, BATI.BAT reimagines it as a symbol of the subconscious—where imagination, darkness, vulnerability, curiosity, and creativity meet.
+    The name comes from Batibat, a creature from Philippine folklore associated with sleep paralysis and the strange space between dreaming and waking. Rather than portraying the Batibat solely as something frightening, BATI.BAT reimagines it as a symbol of the subconsciousâ€”where imagination, darkness, vulnerability, curiosity, and creativity meet.
     </p>
 
     <p>
@@ -1131,7 +1196,7 @@ padding:16px;
     </P>
 
     <p>
-      BATI.BAT is ultimately a collection of things I find interesting enough to share—whether I made them myself or found them somewhere along the way.
+      BATI.BAT is ultimately a collection of things I find interesting enough to shareâ€”whether I made them myself or found them somewhere along the way.
     </p>
   </div>
 
@@ -1143,7 +1208,7 @@ padding:16px;
     </p>
 
     <p>
-    I started my first small shop in 2022 under the name Moirae, where I sold crochet pieces alongside a small baking business I shared with my sister. It began quite simply—I wanted to make things for the people I cared about and, eventually, share them with others.
+    I started my first small shop in 2022 under the name Moirae, where I sold crochet pieces alongside a small baking business I shared with my sister. It began quite simplyâ€”I wanted to make things for the people I cared about and, eventually, share them with others.
     </p>
 
     <p>
@@ -1190,10 +1255,10 @@ padding:16px;
     <h2>Reach out</h2>
     <div class="contact-detail"><strong>Instagram:</strong> @bati_bat.co</div>
     <div class="contact-detail"><strong>Email:</strong> <a href="mailto:batibat.co@gmail.com" style="color:#fff;">batibat.co@gmail.com</a></div>
-    <div class="contact-detail"><strong>Response time:</strong> usually within 24–48 hours</div>
+    <div class="contact-detail"><strong>Response time:</strong> usually within 24â€“48 hours</div>
     <div class="contact-detail"><strong>For orders:</strong> include product name and proof of payment</div>
     <div class="info-box">
-      <p>For quick questions about commissions, shipping, or custom orders, send a DM on Instagram or email us directly. We’ll get back to you as soon as possible.</p>
+      <p>For quick questions about commissions, shipping, or custom orders, send a DM on Instagram or email us directly. Weâ€™ll get back to you as soon as possible.</p>
     </div>
   </div>
 </div>
@@ -1329,7 +1394,7 @@ data[cat].push({
 id: prefix+"-"+String(i).padStart(3,'0'),
 name:"Product "+i,
 price:100,
-stock:5,
+stock: 0,
 img:""
 });
 
@@ -1343,75 +1408,75 @@ data.Pins = [
     name: "Eye",
     description: "Handmade / Painted",
     variants: [
-      { id: "PIN-001", name: "V1", price: 75, stock: 1, img: itemImage("PINS", "Eye V1.png") },
-      { id: "PIN-002", name: "V2", price: 95, stock: 1, img: itemImage("PINS", "Eye V2.png") },
-      { id: "PIN-003", name: "V3", price: 75, stock: 1, img: itemImage("PINS", "Eye V3.png") },
-      { id: "PIN-004", name: "V4", price: 75, stock: 1, img: itemImage("PINS", "Eye V4.png") },
-      { id: "PIN-005", name: "V5: Red", price: 75, stock: 1, img: itemImage("PINS", "Eye V5.png") },
-      { id: "PIN-006", name: "V6", price: 95, stock: 1, img: itemImage("PINS", "Eye V6.png") }
+      { id: "PIN-001", name: "V1", price: 75, stock: 0, img: itemImage("PINS", "Eye V1.png") },
+      { id: "PIN-002", name: "V2", price: 95, stock: 0, img: itemImage("PINS", "Eye V2.png") },
+      { id: "PIN-003", name: "V3", price: 75, stock: 0, img: itemImage("PINS", "Eye V3.png") },
+      { id: "PIN-004", name: "V4", price: 75, stock: 0, img: itemImage("PINS", "Eye V4.png") },
+      { id: "PIN-005", name: "V5: Red", price: 75, stock: 0, img: itemImage("PINS", "Eye V5.png") },
+      { id: "PIN-006", name: "V6", price: 95, stock: 0, img: itemImage("PINS", "Eye V6.png") }
     ]
   },
-  { id: "PIN-007", name: "Skull", description: "Handmade / Painted", price: 75, stock: 1, img: itemImage("PINS", "Skull.png") },
+  { id: "PIN-007", name: "Skull", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Skull.png") },
   {
     id: "PIN-SPIRAL",
     name: "Spiral",
     description: "Handmade / Painted",
     variants: [
-      { id: "PIN-008", name: "Red", price: 75, stock: 1, img: itemImage("PINS", "Spiral V1.png") },
-      { id: "PIN-009", name: "White", price: 75, stock: 1, img: itemImage("PINS", "Spiral V2.png") }
+      { id: "PIN-008", name: "Red", price: 75, stock: 0, img: itemImage("PINS", "Spiral V1.png") },
+      { id: "PIN-009", name: "White", price: 75, stock: 0, img: itemImage("PINS", "Spiral V2.png") }
     ]
   },
-  { id: "PIN-010", name: "Manananggal", description: "Handmade / Painted", price: 95, stock: 1, img: itemImage("PINS", "Manananggal.png") },
+  { id: "PIN-010", name: "Manananggal", description: "Handmade / Painted", price: 95, stock: 0, img: itemImage("PINS", "Manananggal.png") },
   {
     id: "PIN-TAROT",
     name: "Tarot",
     description: "Handmade / Painted",
     variants: [
-      { id: "PIN-011", name: "The High Priestess", price: 95, stock: 1, img: itemImage("PINS", "Tarot_The High Priestess.png") },
-      { id: "PIN-012", name: "Three of Swords", price: 95, stock: 1, img: itemImage("PINS", "Tarot_Three of Swords.png") },
-      { id: "PIN-013", name: "Death", price: 95, stock: 1, img: itemImage("PINS", "Tarot_Death.png") }
+      { id: "PIN-011", name: "The High Priestess", price: 95, stock: 0, img: itemImage("PINS", "Tarot_The High Priestess.png") },
+      { id: "PIN-012", name: "Three of Swords", price: 95, stock: 0, img: itemImage("PINS", "Tarot_Three of Swords.png") },
+      { id: "PIN-013", name: "Death", price: 95, stock: 0, img: itemImage("PINS", "Tarot_Death.png") }
     ]
   },
-  { id: "PIN-014", name: "Web", description: "Handmade / Painted", price: 75, stock: 1, img: itemImage("PINS", "Web.png") },
-  { id: "PIN-015", name: "Guts", description: "Handmade / Painted", price: 95, stock: 1, img: itemImage("PINS", "Guts.png") },
-  { id: "PIN-016", name: "Tooth", description: "Handmade / Painted", price: 75, stock: 1, img: itemImage("PINS", "Tooth.png") },
-  { id: "PIN-017", name: "Vinyl", description: "Handmade / Painted", price: 75, stock: 1, img: itemImage("PINS", "Vinyl.png") }
+  { id: "PIN-014", name: "Web", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Web.png") },
+  { id: "PIN-015", name: "Guts", description: "Handmade / Painted", price: 95, stock: 0, img: itemImage("PINS", "Guts.png") },
+  { id: "PIN-016", name: "Tooth", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Tooth.png") },
+  { id: "PIN-017", name: "Vinyl", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Vinyl.png") }
 ];
 
 data.Keychains = [
-  { id: "KEY-001", name: "Dawn", description: "9 cm", price: 125, stock: 1, img: itemImage("PDD", "Dawn.png") },
+  { id: "KEY-001", name: "Dawn", description: "9 cm", price: 125, stock: 0, img: itemImage("PDD", "Dawn.png") },
   {
     id: "KEYCHAIN PB",
     name: "Punk Bunnies",
     img: itemImage("PDD", "Punk Bunnies.png"),
     variants: [
-      { id: "KEY-002", name: "Rye", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 1, img: itemImage("PDD", "Rye.png") },
-      { id: "KEY-003", name: "Mahrsy", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 1, img: itemImage("PDD", "Mahrsy.png") },
-      { id: "KEY-004", name: "Wen", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 1, img: itemImage("PDD", "Wen.png") },
-      { id: "KEY-005", name: "Eli", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 1, img: itemImage("PDD", "Eli.png") },
-      { id: "KEY-006", name: "Alex", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 1, img: itemImage("PDD", "Alex.png") }
+      { id: "KEY-002", name: "Rye", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Rye.png") },
+      { id: "KEY-003", name: "Mahrsy", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Mahrsy.png") },
+      { id: "KEY-004", name: "Wen", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Wen.png") },
+      { id: "KEY-005", name: "Eli", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Eli.png") },
+      { id: "KEY-006", name: "Alex", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Alex.png") }
     ]
   },
-  { id: "KEY-007", name: "Gear Shift Keychain", description: "Silver", price: 75, stock: 1, img: itemImage("PDD", "Gear Shift Keychain.png") },
+  { id: "KEY-007", name: "Gear Shift Keychain", description: "Silver", price: 75, stock: 0, img: itemImage("PDD", "Gear Shift Keychain.png") },
   {
     id: "KEYCHAIN HEADPHONES",
     name: "Headphones Keychain",
     variants: [
-      { id: "KEY-008", name: "Black", price: 120, stock: 1, img: itemImage("PDD", "Headphones Charm.png") },
-      { id: "KEY-009", name: "Silver", price: 120, stock: 1, img: itemImage("PDD", "Headphones Charm Silver.png") }
+      { id: "KEY-008", name: "Black", price: 120, stock: 0, img: itemImage("PDD", "Headphones Charm.png") },
+      { id: "KEY-009", name: "Silver", price: 120, stock: 0, img: itemImage("PDD", "Headphones Charm Silver.png") }
     ]
   },
     {
     id: "KEYCHAIN MONSTER",
     name: "Monster Energy Drink Keychain",
     variants: [
-      { id: "KEY-010", name: "Black and White", description: "2.5 cm", price: 75, stock: 1, img: itemImage("PDD", "Black and White Monster.png") },
-      { id: "KEY-011", name: "Pink and White", description: "2.5 cm", price: 75, stock: 1, img: itemImage("PDD", "Pink and White Monster.png") }
+      { id: "KEY-010", name: "Black and White", description: "2.5 cm", price: 75, stock: 0, img: itemImage("PDD", "Black and White Monster.png") },
+      { id: "KEY-011", name: "Pink and White", description: "2.5 cm", price: 75, stock: 0, img: itemImage("PDD", "Pink and White Monster.png") }
     ]
   },
- { id: "KEY-012", name: "Magyan", description: "14 cm (H) x 11 cm (W) · Can pull down hood", price: 360, stock: 1, img: itemImage("PDD", "Magyan.png") },
-{ id: "KEY-013", name: "Kimat", description: "14 cm · Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 1, img: itemImage("PDD", "Kimat.png") },
-{ id: "KEY-014", name: "Muning", description: "13 cm · Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 1, img: itemImage("PDD", "Muning.png") },
+ { id: "KEY-012", name: "Magyan", description: "14 cm (H) x 11 cm (W) Â· Can pull down hood", price: 360, stock: 0, img: itemImage("PDD", "Magyan.png") },
+{ id: "KEY-013", name: "Kimat", description: "14 cm Â· Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Kimat.png") },
+{ id: "KEY-014", name: "Muning", description: "13 cm Â· Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Muning.png") },
 ];
 
 data.Accessories = [
@@ -1419,57 +1484,57 @@ data.Accessories = [
     id: "ACC-001",
     name: "Blade Hairclip",
     price: 75,
-    stock: 8,
+    stock: 0,
     img: itemImage("PDD", "Blade Hairclip.png")
   },
   {
     id: "LACE-NECKWEAR",
     name: "Lace Neckwear",
     variants: [
-      { id: "ACC-002", name: "Black", price: 300, stock: 1, img: itemImage("PDD", "Black Lace Neckwear.png") },
-      { id: "ACC-003", name: "White", price: 300, stock: 1, img: itemImage("PDD", "White Lace Neckwear.png") }
+      { id: "ACC-002", name: "Black", price: 300, stock: 0, img: itemImage("PDD", "Black Lace Neckwear.png") },
+      { id: "ACC-003", name: "White", price: 300, stock: 0, img: itemImage("PDD", "White Lace Neckwear.png") }
     ]
   },
   {
     id: "ACC-004",
     name: "Black Heart Cross Choker",
     price: 150,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Black Heart Cross Choker.png")
   },
   {
     id: "ACC-005",
     name: "Black Cross Lace Choker",
     price: 150,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Black Cross Lace Choker.png")
   },
   {
     id: "ACC-006",
     name: "Paniki Necklace",
     price: 160,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Paniki Necklace.png")
   },
   {
     id: "ACC-007",
     name: "Heart Cross Necklace",
     price: 160,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Heart Cross Necklace.png")
   },
   {
     id: "ACC-008",
     name: "Heart Necklace",
     price: 160,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Heart Necklace.png")
   },
 ];
 
 data.Ashtray = [
-  { id: "ASH-001", name: "Hapo", price: 300, stock: 2, img: itemImage("PDD", "Hapo.png") },
-  { id: "ASH-002", name: "Pasyon", price: 200, stock: 2, img: itemImage("PDD", "Pasyon.png") }
+  { id: "ASH-001", name: "Hapo", price: 300, stock: 0, img: itemImage("PDD", "Hapo.png") },
+  { id: "ASH-002", name: "Pasyon", price: 200, stock: 0, img: itemImage("PDD", "Pasyon.png") }
 ];
 
 data.Plushies = [
@@ -1478,7 +1543,7 @@ data.Plushies = [
     name: "Hello Kitty Chucky Plush Pillow",
     description: "34 cm (H) x 44 cm (W)",
     price: 650,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Hello Kitty Chucky Plush & Pillow.png")
   },
    {
@@ -1494,7 +1559,7 @@ data.Plushies = [
     name: "Paniki",
     description: "24 cm (H) x 23 cm (W)",
     price: 220,
-    stock: 1,
+    stock: 0,
     img: itemImage("PDD", "Paniki.png"),
     images: [
       { src: itemImage("PDD", "Paniki.png"), label: "Front view" },
@@ -1508,25 +1573,25 @@ data.Crochet = [
     id: "CRO-POUCH-001",
     subcategory: "Pouches",
     name: "Blood Moon",
-    description: "Handmade / Crochet · 14 cm (H) x 12 cm (W)",
+    description: "Handmade / Crochet Â· 14 cm (H) x 12 cm (W)",
     variants: [
-      { id: "CRO-001", name: "Classic Edition", price: 235, stock: 1, img: itemImage("Crochet", "Blood Moon V2.png") },
-      { id: "CRO-002", name: "Special Edition", price: 250, stock: 1, img: itemImage("Crochet", "Blood Moon V1.png") }
+      { id: "CRO-001", name: "Classic Edition", price: 235, stock: 0, img: itemImage("Crochet", "Blood Moon V2.png") },
+      { id: "CRO-002", name: "Special Edition", price: 250, stock: 0, img: itemImage("Crochet", "Blood Moon V1.png") }
     ]
   },
   {
     id: "CRO-KEY-001",
     subcategory: "Keychains",
     name: "Voodoo Dolls",
-    description: "Handmade / Crochet · 10 cm",
+    description: "Handmade / Crochet Â· 10 cm",
     variants: [
-      { id: "CRO-003", name: "Hatinggabi", price: 200, stock: 1, img: itemImage("Crochet", "Voodoo_hatinggabi.png") },
-      { id: "CRO-004", name: "Pula", price: 175, stock: 1, img: itemImage("Crochet", "Voodoo_pula.png") },
-      { id: "CRO-005", name: "Sumpa", price: 185, stock: 1, img: itemImage("Crochet", "Voodoo_sumpa.png") }
+      { id: "CRO-003", name: "Hatinggabi", price: 200, stock: 0, img: itemImage("Crochet", "Voodoo_hatinggabi.png") },
+      { id: "CRO-004", name: "Pula", price: 175, stock: 0, img: itemImage("Crochet", "Voodoo_pula.png") },
+      { id: "CRO-005", name: "Sumpa", price: 185, stock: 0, img: itemImage("Crochet", "Voodoo_sumpa.png") }
     ]
   },
-  { id: "CRO-006", subcategory: "Keychains", name: "Saragnayan", description: "Handmade / Crochet  · 6.5 cm", price: 250, stock: 2, img: itemImage("Crochet", "Saragnayan.png") },
-  { id: "CRO-007", subcategory: "Keychains", name: "Sukob", description: "Handmade / Crochet  · 9 cm", price: 200, stock: 1, img: itemImage("Crochet", "Sukob.png") }
+  { id: "CRO-006", subcategory: "Keychains", name: "Saragnayan", description: "Handmade / Crochet  Â· 6.5 cm", price: 250, stock: 0, img: itemImage("Crochet", "Saragnayan.png") },
+  { id: "CRO-007", subcategory: "Keychains", name: "Sukob", description: "Handmade / Crochet  Â· 9 cm", price: 200, stock: 0, img: itemImage("Crochet", "Sukob.png") }
 ];
 
 data.Clay = [
@@ -1535,7 +1600,7 @@ data.Clay = [
     name: "Bungisngis: Lighter Case",
     description: "Handmade / Clay",
     price: 300,
-    stock: 1,
+    stock: 0,
     img: itemImage("CLAY", "Bungisngis Lighter Holder.png")
   }
 ];
@@ -1544,9 +1609,9 @@ data.Notepads = [
   {
     id: "NOT-001",
     name: "Bakunawa",
-    description: "3x3 in. · 30 leaves",
+    description: "3x3 in. Â· 30 leaves",
     price: 49,
-    stock: 5,
+    stock: 0,
     img: itemImage("Notepads", "Bakunawa Back  Cover.png"),
     images: [
       { src: itemImage("Notepads", "Bakunawa Back  Cover.png"), label: "Back Cover" },
@@ -1556,9 +1621,9 @@ data.Notepads = [
   {
     id: "NOT-002",
     name: "Tiyanak",
-    description: "3x3 in. · 30 leaves",
+    description: "3x3 in. Â· 30 leaves",
     price: 49,
-    stock: 5,
+    stock: 0,
     img: itemImage("Notepads", "Tiyanak Back Cover.png"),
     images: [
       { src: itemImage("Notepads", "Tiyanak Back Cover.png"), label: "Back Cover" },
@@ -1568,9 +1633,9 @@ data.Notepads = [
   {
     id: "NOT-003",
     name: "Tikbalang",
-    description: "3x3 in. · 30 leaves",
+    description: "3x3 in. Â· 30 leaves",
     price: 49,
-    stock: 5,
+    stock: 0,
     img: itemImage("Notepads", "Tikbalang Back Cover.png"),
     images: [
       { src: itemImage("Notepads", "Tikbalang Back Cover.png"), label: "Back Cover" },
@@ -1580,9 +1645,9 @@ data.Notepads = [
   {
     id: "NOT-004",
     name: "Santelmo",
-    description: "3x3 in. · 30 leaves",
+    description: "3x3 in. Â· 30 leaves",
     price: 49,
-    stock: 5,
+    stock: 0,
     img: itemImage("Notepads", "Santelmo Back Cover.png"),
     images: [
       { src: itemImage("Notepads", "Santelmo Back Cover.png"), label: "Back Cover" },
@@ -1600,13 +1665,13 @@ let previewIndex = 0;
 let previewItems = [];
 let currentSearch = '';
 let cart = [];
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwwWUmpxoIIMte2KDmx11sTUEZsMpCddvR_pbAYwI1w51fizwHqOQmgHZVLIBgaGPdB/exec';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbz-HgksjfAkzGPoFpAJHJVlERiBZHrzMco-9vm3MSgU65tx7sI9cJUCyAJhhtaqv30/exec';
 const CONTACT_EMAIL = 'contact.batibatco@gmail.com';
-const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbwwWUmpxoIIMte2KDmx11sTUEZsMpCddvR_pbAYwI1w51fizwHqOQmgHZVLIBgaGPdB/exec';
+const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbz-HgksjfAkzGPoFpAJHJVlERiBZHrzMco-9vm3MSgU65tx7sI9cJUCyAJhhtaqv30/exec';
 
 
 function formatMoney(value){
-  return `₱${Number(value).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `â‚±${Number(value).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function buildPreviewItems(){
@@ -1661,7 +1726,7 @@ function updatePreview(){
       <div>
         <h3>${item.name}</h3>
         <p>${item.category}</p>
-        <p class="price">₱${item.price}.00</p>
+        <p class="price">â‚±${item.price}.00</p>
       </div>
     `;
     track.appendChild(card);
@@ -1691,6 +1756,56 @@ function getProductStock(product, variantIndex = 0) {
   return Number.isFinite(inventoryStock) ? inventoryStock : 0;
 }
 
+function showToast(message, type = 'info', duration = 3500) {
+  const container = document.getElementById('toastContainer');
+  if (!container) {
+    alert(message);
+    return;
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  window.setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(12px)';
+    window.setTimeout(() => toast.remove(), 180);
+  }, duration);
+}
+
+function showError(message) {
+  showToast(message, 'error', 5000);
+}
+
+function showSuccess(message) {
+  showToast(message, 'success', 3500);
+}
+
+async function fetchJsonFromScript(url, init = {}) {
+  const response = await fetch(url, {
+    cache: 'no-store',
+    mode: 'cors',
+    credentials: 'omit',
+    ...init
+  });
+
+  const rawText = await response.text();
+  let result = {};
+
+  try {
+    result = rawText ? JSON.parse(rawText) : {};
+  } catch (error) {
+    result = {
+      success: false,
+      error: rawText || 'The Google Apps Script returned an invalid response.'
+    };
+  }
+
+  return { response, result, rawText };
+}
+
 function updateVariantCard(select) {
   const option = select.options[select.selectedIndex];
   const card = select.closest('.card');
@@ -1703,7 +1818,7 @@ function updateVariantCard(select) {
   const stock = Number(option.dataset.stock || 0);
 
   if (productImage) productImage.src = option.dataset.image || '';
-  if (productPrice) productPrice.textContent = `₱${option.dataset.price}.00`;
+  if (productPrice) productPrice.textContent = `â‚±${option.dataset.price}.00`;
 
   if (productStock) {
     if (stock <= 0) {
@@ -1746,7 +1861,7 @@ function addToCart(cat, index, variantIndex = 0) {
   const currentStock = Number(variant?.stock ?? 0);
 
   if (!variant || currentStock <= 0) {
-    alert('This item is sold out.');
+    showError('This item is sold out.');
     return;
   }
 
@@ -1759,7 +1874,7 @@ function addToCart(cat, index, variantIndex = 0) {
   }, 0);
 
   if (existingItem && cartQtyForItem >= currentStock) {
-    alert(`Only ${currentStock} left in stock for this item.`);
+    showError(`Only ${currentStock} left in stock for this item.`);
     return;
   }
 
@@ -1808,8 +1923,8 @@ function renderCart(){
 
   if (!cart.length) {
     cartItems.innerHTML = '<div class="info-box"><p>Your cart is empty.</p></div>';
-    subtotalEl.textContent = '₱0.00';
-    totalEl.textContent = '₱0.00';
+    subtotalEl.textContent = 'â‚±0.00';
+    totalEl.textContent = 'â‚±0.00';
     return;
   }
 
@@ -1833,7 +1948,7 @@ function renderCart(){
       </div>
       <div class="cart-actions">
         <div class="qty-stepper">
-          <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, -1)">−</button>
+          <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, -1)">âˆ’</button>
           <span>${item.qty}</span>
           <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, 1)">+</button>
         </div>
@@ -1857,14 +1972,14 @@ async function submitOrder(){
   }
 
   if (!cart.length) {
-    alert('Your cart is empty.');
+    showError('Your cart is empty.');
     return;
   }
 
   for (const item of cart) {
     const product = data[item.cat]?.[item.index];
     if (!product) {
-      alert(`One of the items in your cart is no longer available.`);
+      showError('One of the items in your cart is no longer available.');
       return;
     }
 
@@ -1872,12 +1987,12 @@ async function submitOrder(){
     const availableStock = Number(variant?.stock ?? 0);
 
     if (!variant || availableStock <= 0) {
-      alert(`${item.name} is sold out and cannot be checked out.`);
+      showError(`${item.name} is sold out and cannot be checked out.`);
       return;
     }
 
     if (item.qty > availableStock) {
-      alert(`${item.name} only has ${availableStock} left in stock.`);
+      showError(`${item.name} only has ${availableStock} left in stock.`);
       return;
     }
   }
@@ -1887,7 +2002,12 @@ async function submitOrder(){
   const address = document.getElementById('checkoutAddress')?.value.trim();
 
   if (!name || !email || !address) {
-    alert('Please enter your name, email, and shipping address before submitting.');
+    showError('Please enter your name, email, and shipping address before submitting.');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('Please enter a valid email address before submitting.');
     return;
   }
 
@@ -1915,26 +2035,17 @@ async function submitOrder(){
   }
 
   try {
-    const response = await fetch(GOOGLE_SHEET_URL, {
+    const { response, result } = await fetchJsonFromScript(GOOGLE_SHEET_URL, {
       method: 'POST',
-      mode: 'cors',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(payload)
     });
 
-    const rawText = await response.text();
-    let result = {};
-
-    try {
-      result = rawText ? JSON.parse(rawText) : {};
-    } catch (error) {
-      result = { success: false, error: rawText || 'The Google Apps Script returned a non-JSON response.' };
-    }
-
     if (response.ok && result.success === true) {
-      alert('Order submitted successfully!');
+      showSuccess('Order submitted successfully!');
       cart = [];
       renderCart();
       await refreshInventory();
@@ -1943,12 +2054,12 @@ async function submitOrder(){
       return;
     }
 
-    const errorMessage = result?.error || rawText || 'The web app responded, but it was not valid JSON.';
+    const errorMessage = result?.error || 'The web app responded, but it was not valid JSON.';
     throw new Error(errorMessage);
   } catch (error) {
     console.error(error);
     const detail = error && error.message ? error.message : 'Unknown error';
-    alert('There was an error submitting your order. The Apps Script is likely not published correctly or is not returning JSON.\n\nDetails:\n' + detail.slice(0, 300));
+    showError('There was a problem submitting your order. Please check your connection and the Apps Script deployment.\n' + detail.slice(0, 220));
   } finally {
     isSubmittingOrder = false;
     if (submitBtn) {
@@ -1964,7 +2075,12 @@ async function submitContactMessage(){
   const message = document.getElementById('contactMessage')?.value.trim();
 
   if (!name || !email || !message) {
-    alert('Please fill in your name, email, and message before sending.');
+    showError('Please fill in your name, email, and message before sending.');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('Please enter a valid email address before sending your message.');
     return;
   }
 
@@ -1978,26 +2094,17 @@ async function submitContactMessage(){
 
   if (CONTACT_EMAIL_URL) {
     try {
-      const response = await fetch(CONTACT_EMAIL_URL, {
+      const { response, result } = await fetchJsonFromScript(CONTACT_EMAIL_URL, {
         method: 'POST',
-        mode: 'cors',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(payload)
       });
 
-      const rawText = await response.text();
-      let result = {};
-
-      try {
-        result = rawText ? JSON.parse(rawText) : {};
-      } catch (error) {
-        result = { success: false, error: rawText || 'The email script returned a non-JSON response.' };
-      }
-
       if (response.ok && result.success === true) {
-        alert('Your message has been sent successfully.');
+        showSuccess('Your message has been sent successfully.');
         document.getElementById('contactName').value = '';
         document.getElementById('contactEmail').value = '';
         document.getElementById('contactMessage').value = '';
@@ -2007,7 +2114,7 @@ async function submitContactMessage(){
       throw new Error(result?.error || 'Email script failed.');
     } catch (error) {
       console.error(error);
-      alert('The email script did not respond correctly. The page will open your email app as a fallback.');
+      showError('The email script did not respond correctly. We will open your email app as a fallback.');
     }
   }
 
@@ -2018,38 +2125,38 @@ async function submitContactMessage(){
 
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${subject}&body=${body}`;
   window.open(gmailUrl, '_blank');
-  alert('Your email app has opened. Please click Send to complete the message.');
+  showSuccess('Your email app has opened. Please click Send to complete the message.');
 }
 
 async function refreshInventory() {
   try {
-    const response = await fetch(`${GOOGLE_SHEET_URL}?action=inventory`, { method: 'GET', mode: 'cors' });
+    const inventoryUrl = `${GOOGLE_SHEET_URL}${GOOGLE_SHEET_URL.includes('?') ? '&' : '?'}action=inventory`;
+    const { response, result } = await fetchJsonFromScript(inventoryUrl, { method: 'GET' });
     if (!response.ok) return false;
 
-    const result = await response.json();
     const inventory = Array.isArray(result?.inventory) ? result.inventory : [];
-
     if (!inventory.length) return false;
 
     const inventoryMap = new Map();
     inventory.forEach(item => {
       const id = String(item.id || '').trim();
       const stock = Number(item.stock ?? 0);
-      if (id) inventoryMap.set(id, stock);
+      if (id) inventoryMap.set(id, Number.isFinite(stock) ? stock : 0);
     });
 
     Object.keys(data).forEach(cat => {
       data[cat].forEach(product => {
         if (Array.isArray(product.variants)) {
           product.variants.forEach(variant => {
-            if (inventoryMap.has(String(variant.id || '').trim())) {
-              variant.stock = Number(inventoryMap.get(String(variant.id || '').trim()) || 0);
+            const variantId = String(variant.id || '').trim();
+            if (inventoryMap.has(variantId)) {
+              variant.stock = Number(inventoryMap.get(variantId) || 0);
             }
           });
-        } else if (inventoryMap.has(String(product.id || '').trim())) {
-          product.stock = Number(inventoryMap.get(String(product.id || '').trim()) || 0);
-          if (product.stock <= 0 && product.img) {
-            product.img = product.img;
+        } else {
+          const productId = String(product.id || '').trim();
+          if (inventoryMap.has(productId)) {
+            product.stock = Number(inventoryMap.get(productId) || 0);
           }
         }
       });
@@ -2075,7 +2182,7 @@ function createProductCard(cat, productEntry){
             <button class="product-image-button" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">
               <img class="product-image" src="${p.images[0].src}" alt="${p.name} - ${p.images[0].label}">
             </button>
-            <button class="product-image-next" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">→</button>
+            <button class="product-image-next" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">â†’</button>
           </div>`
         : `<div class="product-gallery" role="group" aria-label="${p.name} photos">
             ${p.images.map((image, imageIndex) => `
@@ -2095,7 +2202,7 @@ function createProductCard(cat, productEntry){
       <h3>${p.name}</h3>
       ${p.description ? `<p class="product-description">${p.description}</p>` : ''}
       ${renderVariantSelector(p)}
-      <p class="product-price">₱${variant.price}.00</p>
+      <p class="product-price">â‚±${variant.price}.00</p>
       ${currentStock !== undefined && currentStock !== null ? `<p class="product-stock ${isSoldOut ? 'sold-out' : ''}">${isSoldOut ? 'Sold out' : `Stock: ${currentStock}`}</p>` : ''}
       <button class="buy-btn ${isSoldOut ? 'is-disabled' : ''}" ${isSoldOut ? 'disabled' : ''} onclick="addToCartFromCard(this, '${cat}', ${index});">${isSoldOut ? 'Sold out' : 'Add to Cart'}</button>
     </div>
@@ -2212,6 +2319,7 @@ function renderShop(){
 
 renderShopMenu();
 renderHomePreview();
+refreshInventory().catch(() => {});
 </script>
 
 </body>
