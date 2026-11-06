@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1152,6 +1152,7 @@ padding:16px;
     <h2>Order Details</h2>
     <div class="contact-form">
       <input id="checkoutName" placeholder="Name">
+      <input id="checkoutInstagram" placeholder="Instagram Username (@username)">
       <input id="checkoutEmail" type="email" placeholder="Email">
       <input id="checkoutAddress" placeholder="Shipping Address">
     </div>
@@ -1503,9 +1504,9 @@ data.Keychains = [
       { id: "KEY-011", name: "Pink and White", description: "2.5 cm", price: 75, stock: 0, img: itemImage("PDD", "Pink and White Monster.png") }
     ]
   },
- { id: "KEY-012", name: "Magyan", description: "14 cm (H) x 11 cm (W) Â· Can pull down hood", price: 360, stock: 0, img: itemImage("PDD", "Magyan.png") },
-{ id: "KEY-013", name: "Kimat", description: "14 cm Â· Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Kimat.png") },
-{ id: "KEY-014", name: "Muning", description: "13 cm Â· Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Muning.png") },
+ { id: "KEY-012", name: "Magyan", description: "14 cm (H) x 11 cm (W) · Can pull down hood", price: 360, stock: 0, img: itemImage("PDD", "Magyan.png") },
+{ id: "KEY-013", name: "Kimat", description: "14 cm · Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Kimat.png") },
+{ id: "KEY-014", name: "Muning", description: "13 cm · Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Muning.png") },
 ];
 
 data.Accessories = [
@@ -1602,7 +1603,7 @@ data.Crochet = [
     id: "CRO-POUCH-001",
     subcategory: "Pouches",
     name: "Blood Moon",
-    description: "Handmade / Crochet Â· 14 cm (H) x 12 cm (W)",
+    description: "Handmade / Crochet · 14 cm (H) x 12 cm (W)",
     variants: [
       { id: "CRO-001", name: "Classic Edition", price: 235, stock: 0, img: itemImage("Crochet", "Blood Moon V2.png") },
       { id: "CRO-002", name: "Special Edition", price: 250, stock: 0, img: itemImage("Crochet", "Blood Moon V1.png") }
@@ -1612,15 +1613,15 @@ data.Crochet = [
     id: "CRO-KEY-001",
     subcategory: "Keychains",
     name: "Voodoo Dolls",
-    description: "Handmade / Crochet Â· 10 cm",
+    description: "Handmade / Crochet · 10 cm",
     variants: [
       { id: "CRO-003", name: "Hatinggabi", price: 200, stock: 0, img: itemImage("Crochet", "Voodoo_hatinggabi.png") },
       { id: "CRO-004", name: "Pula", price: 175, stock: 0, img: itemImage("Crochet", "Voodoo_pula.png") },
       { id: "CRO-005", name: "Sumpa", price: 185, stock: 0, img: itemImage("Crochet", "Voodoo_sumpa.png") }
     ]
   },
-  { id: "CRO-006", subcategory: "Keychains", name: "Saragnayan", description: "Handmade / Crochet  Â· 6.5 cm", price: 250, stock: 0, img: itemImage("Crochet", "Saragnayan.png") },
-  { id: "CRO-007", subcategory: "Keychains", name: "Sukob", description: "Handmade / Crochet  Â· 9 cm", price: 200, stock: 0, img: itemImage("Crochet", "Sukob.png") }
+  { id: "CRO-006", subcategory: "Keychains", name: "Saragnayan", description: "Handmade / Crochet  · 6.5 cm", price: 250, stock: 0, img: itemImage("Crochet", "Saragnayan.png") },
+  { id: "CRO-007", subcategory: "Keychains", name: "Sukob", description: "Handmade / Crochet  · 9 cm", price: 200, stock: 0, img: itemImage("Crochet", "Sukob.png") }
 ];
 
 data.Clay = [
@@ -1638,7 +1639,7 @@ data.Notepads = [
   {
     id: "NOT-001",
     name: "Bakunawa",
-    description: "3x3 in. Â· 30 leaves",
+    description: "3x3 in. · 30 leaves",
     price: 49,
     stock: 0,
     img: itemImage("Notepads", "Bakunawa Back  Cover.png"),
@@ -1650,7 +1651,7 @@ data.Notepads = [
   {
     id: "NOT-002",
     name: "Tiyanak",
-    description: "3x3 in. Â· 30 leaves",
+    description: "3x3 in. · 30 leaves",
     price: 49,
     stock: 0,
     img: itemImage("Notepads", "Tiyanak Back Cover.png"),
@@ -1662,7 +1663,7 @@ data.Notepads = [
   {
     id: "NOT-003",
     name: "Tikbalang",
-    description: "3x3 in. Â· 30 leaves",
+    description: "3x3 in. · 30 leaves",
     price: 49,
     stock: 0,
     img: itemImage("Notepads", "Tikbalang Back Cover.png"),
@@ -1674,7 +1675,7 @@ data.Notepads = [
   {
     id: "NOT-004",
     name: "Santelmo",
-    description: "3x3 in. Â· 30 leaves",
+    description: "3x3 in. · 30 leaves",
     price: 49,
     stock: 0,
     img: itemImage("Notepads", "Santelmo Back Cover.png"),
@@ -1694,9 +1695,9 @@ let previewIndex = 0;
 let previewItems = [];
 let currentSearch = '';
 let cart = [];
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbz-HgksjfAkzGPoFpAJHJVlERiBZHrzMco-9vm3MSgU65tx7sI9cJUCyAJhhtaqv30/exec';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxiLUIj6qpePdLAdQWuR31pVGCuJfO1P-l9LHZ13rJ63dv7CRSpJVZshoIxc9kIQmsA/exec';
 const CONTACT_EMAIL = 'contact.batibatco@gmail.com';
-const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbz-HgksjfAkzGPoFpAJHJVlERiBZHrzMco-9vm3MSgU65tx7sI9cJUCyAJhhtaqv30/exec';
+const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbxiLUIj6qpePdLAdQWuR31pVGCuJfO1P-l9LHZ13rJ63dv7CRSpJVZshoIxc9kIQmsA/exec';
 
 
 function formatMoney(value){
@@ -2041,11 +2042,12 @@ async function submitOrder(){
   }
 
   const name = document.getElementById('checkoutName')?.value.trim();
+  const instagram = document.getElementById('checkoutInstagram')?.value.trim();
   const email = document.getElementById('checkoutEmail')?.value.trim();
   const address = document.getElementById('checkoutAddress')?.value.trim();
 
-  if (!name || !email || !address) {
-    showError('Please enter your name, email, and shipping address before submitting.');
+  if (!name || !instagram || !email || !address) {
+    showError('Please enter your name, Instagram username, email, and shipping address before submitting.');
     return;
   }
 
@@ -2057,6 +2059,7 @@ async function submitOrder(){
   const payload = {
     action: 'order',
     name,
+    instagram,
     email,
     address,
     items: cart.map(item => ({
@@ -2093,6 +2096,7 @@ async function submitOrder(){
       cart = [];
       renderCart();
       document.getElementById('checkoutName').value = '';
+      document.getElementById('checkoutInstagram').value = '';
       document.getElementById('checkoutEmail').value = '';
       document.getElementById('checkoutAddress').value = '';
       await refreshInventory();
@@ -2101,12 +2105,12 @@ async function submitOrder(){
       return;
     }
 
-    const errorMessage = result?.error || 'The web app responded, but it was not valid JSON.';
+    const errorMessage = result?.error || `HTTP ${response?.status || 'unknown'} response from Apps Script.`;
     throw new Error(errorMessage);
   } catch (error) {
     console.error(error);
     const detail = error && error.message ? error.message : 'Unknown error';
-    showError('There was a problem submitting your order. Please check your connection and the Apps Script deployment.\n' + detail.slice(0, 220));
+    showError('Apps Script deployment issue detected. Please redeploy the Web App and use the newest URL.\n' + detail.slice(0, 260));
   } finally {
     isSubmittingOrder = false;
     if (submitBtn) {
@@ -2229,7 +2233,7 @@ function createProductCard(cat, productEntry){
             <button class="product-image-button" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">
               <img class="product-image" src="${p.images[0].src}" alt="${p.name} - ${p.images[0].label}">
             </button>
-            <button class="product-image-next" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">â†’</button>
+            <button class="product-image-next" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">→</button>
           </div>`
         : `<div class="product-gallery" role="group" aria-label="${p.name} photos">
             ${p.images.map((image, imageIndex) => `
