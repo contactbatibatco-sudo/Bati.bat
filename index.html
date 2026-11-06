@@ -572,6 +572,18 @@ border-radius:12px;
 cursor:pointer;
 }
 
+.buy-btn.is-disabled,
+.buy-btn:disabled{
+background:#5a5a5a;
+cursor:not-allowed;
+opacity:0.75;
+}
+
+.product-stock.sold-out{
+color:#ffb0b0;
+font-weight:600;
+}
+
 .info-box,.cart-card{
 background:rgba(255,255,255,0.05);
 padding:20px;
@@ -1197,7 +1209,9 @@ function show(id){
   if (!target) return;
   target.classList.add("active");
 
-  if(id==="shop") renderShop();
+  if(id==="shop") {
+    refreshInventory().finally(() => renderShop());
+  }
   if(id==="home") renderHomePreview();
   if(id==="cart") renderCart();
 
@@ -1216,6 +1230,11 @@ let data={
 function itemImage(folder, filename){
   const normalizedFolder = String(folder || '').trim();
   const lowerFolder = normalizedFolder.toLowerCase();
+  const rootLevelFolders = new Set(['pdd', 'pins', 'notepads', 'notepad', 'items']);
+
+  if (rootLevelFolders.has(lowerFolder)) {
+    return `./${encodeURIComponent(filename)}`;
+  }
 
   const folderPath = lowerFolder === 'clay'
     ? 'CLAY'
@@ -1373,7 +1392,7 @@ data.Keychains = [
       { id: "KEY-006", name: "Alex", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 1, img: itemImage("PDD", "Alex.png") }
     ]
   },
-  { id: "KEY-007", name: "Gear Shift Keychain", description: "Silver", price: 80, stock: 1, img: itemImage("PDD", "Gear Shift Keychain.png") },
+  { id: "KEY-007", name: "Gear Shift Keychain", description: "Silver", price: 75, stock: 1, img: itemImage("PDD", "Gear Shift Keychain.png") },
   {
     id: "KEYCHAIN HEADPHONES",
     name: "Headphones Keychain",
@@ -1611,9 +1630,9 @@ let previewIndex = 0;
 let previewItems = [];
 let currentSearch = '';
 let cart = [];
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycby84PLlc49mOR0JcWeae1Yir_jsHdb4JlN2J9uonXVed9YAD5qmKfEtI-Je6qzU-Z88/exec';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwbWVZpUq94q5iLW6W9z2nRJYhnJYk0dxrqHn96zNu28ldLBA9TT--jpNZUJrtEKLkE/exec';
 const CONTACT_EMAIL = 'contact.batibatco@gmail.com';
-const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycby84PLlc49mOR0JcWeae1Yir_jsHdb4JlN2J9uonXVed9YAD5qmKfEtI-Je6qzU-Z88/exec';
+const CONTACT_EMAIL_URL = 'https://script.google.com/macros/s/AKfycbwbWVZpUq94q5iLW6W9z2nRJYhnJYk0dxrqHn96zNu28ldLBA9TT--jpNZUJrtEKLkE/exec';
 
 
 function formatMoney(value){
@@ -1694,14 +1713,44 @@ function addToCartFromCard(button, cat, index) {
   addToCart(cat, index, select ? Number(select.value) : 0);
 }
 
+function getProductStock(product, variantIndex = 0) {
+  const variant = getVariant(product, variantIndex);
+  if (!variant) return 0;
+
+  const inventoryStock = Number(variant.stock ?? 0);
+  return Number.isFinite(inventoryStock) ? inventoryStock : 0;
+}
+
 function updateVariantCard(select) {
   const option = select.options[select.selectedIndex];
   const card = select.closest('.card');
   if (!card || !option) return;
 
-  card.querySelector('.product-image').src = option.dataset.image || '';
-  card.querySelector('.product-price').textContent = `₱${option.dataset.price}.00`;
-  card.querySelector('.product-stock').textContent = `Stock: ${option.dataset.stock}`;
+  const productImage = card.querySelector('.product-image');
+  const productPrice = card.querySelector('.product-price');
+  const productStock = card.querySelector('.product-stock');
+  const buyBtn = card.querySelector('.buy-btn');
+  const stock = Number(option.dataset.stock || 0);
+
+  if (productImage) productImage.src = option.dataset.image || '';
+  if (productPrice) productPrice.textContent = `₱${option.dataset.price}.00`;
+
+  if (productStock) {
+    if (stock <= 0) {
+      productStock.textContent = 'Sold out';
+      productStock.classList.add('sold-out');
+    } else {
+      productStock.textContent = `Stock: ${stock}`;
+      productStock.classList.remove('sold-out');
+    }
+  }
+
+  if (buyBtn) {
+    const isSoldOut = stock <= 0;
+    buyBtn.disabled = isSoldOut;
+    buyBtn.textContent = isSoldOut ? 'Sold out' : 'Add to Cart';
+    buyBtn.classList.toggle('is-disabled', isSoldOut);
+  }
 }
 
 function renderVariantSelector(product) {
@@ -1722,13 +1771,29 @@ function renderVariantSelector(product) {
 function addToCart(cat, index, variantIndex = 0) {
   const product = data[cat][index];
   if (!product) return;
+
   const variant = getVariant(product, variantIndex);
+  const currentStock = Number(variant?.stock ?? 0);
+
+  if (!variant || currentStock <= 0) {
+    alert('This item is sold out.');
+    return;
+  }
 
   const existingItem = cart.find(item => item.cat === cat && item.index === index && item.variantIndex === variantIndex);
+  const cartQtyForItem = cart.reduce((sum, item) => {
+    if (item.cat === cat && item.index === index && item.variantIndex === variantIndex) {
+      return sum + item.qty;
+    }
+    return sum;
+  }, 0);
 
-  if (existingItem) {
-    existingItem.qty += 1;
-  } else {
+  if (existingItem && cartQtyForItem >= currentStock) {
+    alert(`Only ${currentStock} left in stock for this item.`);
+    return;
+  }
+
+  if (!existingItem) {
     cart.push({
       cat,
       index,
@@ -1739,6 +1804,8 @@ function addToCart(cat, index, variantIndex = 0) {
       img: variant.img,
       qty: 1
     });
+  } else {
+    existingItem.qty += 1;
   }
 
   renderCart();
@@ -1824,6 +1891,27 @@ async function submitOrder(){
     return;
   }
 
+  for (const item of cart) {
+    const product = data[item.cat]?.[item.index];
+    if (!product) {
+      alert(`One of the items in your cart is no longer available.`);
+      return;
+    }
+
+    const variant = getVariant(product, item.variantIndex);
+    const availableStock = Number(variant?.stock ?? 0);
+
+    if (!variant || availableStock <= 0) {
+      alert(`${item.name} is sold out and cannot be checked out.`);
+      return;
+    }
+
+    if (item.qty > availableStock) {
+      alert(`${item.name} only has ${availableStock} left in stock.`);
+      return;
+    }
+  }
+
   const name = document.getElementById('checkoutName')?.value.trim();
   const email = document.getElementById('checkoutEmail')?.value.trim();
   const address = document.getElementById('checkoutAddress')?.value.trim();
@@ -1879,6 +1967,8 @@ async function submitOrder(){
       alert('Order submitted successfully!');
       cart = [];
       renderCart();
+      await refreshInventory();
+      renderShop();
       show('shop');
       return;
     }
@@ -1961,11 +2051,54 @@ async function submitContactMessage(){
   alert('Your email app has opened. Please click Send to complete the message.');
 }
 
+async function refreshInventory() {
+  try {
+    const response = await fetch(`${GOOGLE_SHEET_URL}?action=inventory`, { method: 'GET', mode: 'cors' });
+    if (!response.ok) return false;
+
+    const result = await response.json();
+    const inventory = Array.isArray(result?.inventory) ? result.inventory : [];
+
+    if (!inventory.length) return false;
+
+    const inventoryMap = new Map();
+    inventory.forEach(item => {
+      const id = String(item.id || '').trim();
+      const stock = Number(item.stock ?? 0);
+      if (id) inventoryMap.set(id, stock);
+    });
+
+    Object.keys(data).forEach(cat => {
+      data[cat].forEach(product => {
+        if (Array.isArray(product.variants)) {
+          product.variants.forEach(variant => {
+            if (inventoryMap.has(String(variant.id || '').trim())) {
+              variant.stock = Number(inventoryMap.get(String(variant.id || '').trim()) || 0);
+            }
+          });
+        } else if (inventoryMap.has(String(product.id || '').trim())) {
+          product.stock = Number(inventoryMap.get(String(product.id || '').trim()) || 0);
+          if (product.stock <= 0 && product.img) {
+            product.img = product.img;
+          }
+        }
+      });
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Inventory refresh failed:', error);
+    return false;
+  }
+}
+
 function createProductCard(cat, productEntry){
   const { item: p, index } = productEntry;
   const card = document.createElement("div");
   card.className = "card";
   const variant = getVariant(p);
+  const currentStock = getProductStock(p, 0);
+  const isSoldOut = currentStock <= 0;
   const productImages = p.images?.length
     ? (p.name === 'Paniki'
         ? `<div class="product-image-wrapper">
@@ -1975,12 +2108,14 @@ function createProductCard(cat, productEntry){
             <button class="product-image-next" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">→</button>
           </div>`
         : `<div class="product-gallery" role="group" aria-label="${p.name} photos">
-            <figure class="product-image-wrapper">
-              <button class="product-image-button" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="openProductGallery(this)" aria-label="View ${p.name} ${p.images[0].label} larger">
-                <img src="${p.images[0].src}" alt="${p.name} - ${p.images[0].label}">
-              </button>
-              <figcaption>${p.images[0].label} · View larger</figcaption>
-            </figure>
+            ${p.images.map((image, imageIndex) => `
+              <figure class="product-image-wrapper">
+                <button class="product-image-button" type="button" data-images='${JSON.stringify(p.images.map(item => ({ src: item.src, alt: `${p.name} - ${item.label}` }))).replace(/'/g, '&apos;')}' data-current-index="${imageIndex}" onclick="openProductGallery(this)" aria-label="View ${p.name} ${image.label} larger">
+                  <img src="${image.src}" alt="${p.name} - ${image.label}">
+                </button>
+                <figcaption>${image.label}</figcaption>
+              </figure>
+            `).join('')}
           </div>`)
     : `<img class="product-image" src="${p.img || variant.img || ''}" alt="${p.name}">`;
 
@@ -1991,8 +2126,8 @@ function createProductCard(cat, productEntry){
       ${p.description ? `<p class="product-description">${p.description}</p>` : ''}
       ${renderVariantSelector(p)}
       <p class="product-price">₱${variant.price}.00</p>
-      ${variant.stock !== undefined && variant.stock !== null ? `<p class="product-stock">Stock: ${variant.stock}</p>` : ''}
-      <button class="buy-btn" onclick="addToCartFromCard(this, '${cat}', ${index});">Add to Cart</button>
+      ${currentStock !== undefined && currentStock !== null ? `<p class="product-stock ${isSoldOut ? 'sold-out' : ''}">${isSoldOut ? 'Sold out' : `Stock: ${currentStock}`}</p>` : ''}
+      <button class="buy-btn ${isSoldOut ? 'is-disabled' : ''}" ${isSoldOut ? 'disabled' : ''} onclick="addToCartFromCard(this, '${cat}', ${index});">${isSoldOut ? 'Sold out' : 'Add to Cart'}</button>
     </div>
   `;
 
