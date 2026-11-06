@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BATI.BAT</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Metal+Mania&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#232530;
+color:white;
+font-family:'Montserrat',sans-serif;
+overflow-x:hidden;
+}
+
+.toast-container{
+position:fixed;
+right:16px;
+bottom:20px;
+z-index:2000;
+display:flex;
+flex-direction:column;
+gap:10px;
+pointer-events:none;
+}
+
+.toast{
+min-width:260px;
+max-width:min(88vw,420px);
+padding:14px 16px;
+border-radius:14px;
+background:rgba(35,37,48,0.96);
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 16px 36px rgba(0,0,0,0.34);
+color:#fff;
+font-size:14px;
+line-height:1.5;
+pointer-events:auto;
+transform:translateY(12px);
+opacity:0;
+animation:toastIn 0.22s ease forwards;
+}
+
+.checkout-success-banner {
+  display:none;
+  margin:14px 0 20px;
+  padding:16px 18px;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(30,76,42,0.95), rgba(21,49,41,0.95));
+  border:1px solid rgba(136,224,149,0.45);
+  color:#f5fff6;
+  box-shadow:0 16px 32px rgba(0,0,0,0.18);
+}
+
+.checkout-success-banner.visible {
+  display:block;
+}
+
+.checkout-success-banner strong {
+  display:block;
+  font-size:1.05rem;
+  margin-bottom:6px;
+}
+
+.toast.success{
+background:rgba(26,66,35,0.96);
+border-color:rgba(123,206,132,0.4);
+}
+
+.toast.error{
+background:rgba(80,23,23,0.96);
+border-color:rgba(255,158,158,0.35);
+}
+
+.toast.info{
+background:rgba(35,37,48,0.96);
+}
+
+@keyframes toastIn{
+from{opacity:0; transform:translateY(12px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+section#home{
+position:relative;
+background-image:url("./homepage%20logo.png");
+background-size:cover;
+background-position:center 25%;
+background-repeat:no-repeat;
+}
+
+section#home::before{
+content:"";
+position:absolute;
+inset:0;
+background-image:
+radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05) 1px, transparent 1px),
+radial-gradient(circle at 80% 60%, rgba(255,255,255,0.04) 1px, transparent 1px);
+background-size:180px 180px;
+pointer-events:none;
+}
+
+nav{
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 30px;
+backdrop-filter:blur(10px);
+background:rgba(30,30,40,0.75);
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.nav-left{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.nav-btn{
+background:#780303;
+border:none;
+color:white;
+padding:11px 20px;
+border-radius:0;
+cursor:pointer;
+transition:0.3s ease;
+font-size:14px;
+box-shadow:0 0 10px rgba(120,3,3,0.3);
+}
+
+.nav-btn:hover{
+background:#4d0b0b;
+transform:translateY(-2px);
+}
+
+.logo-box{
+width:52px;
+height:52px;
+border-radius:14px;
+overflow:hidden;
+background:#780303;
+cursor:pointer;
+}
+
+.logo-box img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+section{
+display:none;
+min-height:100vh;
+padding:40px;
+animation:fade 0.4s ease;
+}
+
+section.active{
+display:block;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.hero{
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+align-items:center;
+text-align:center;
+padding-top:20px;
+min-height:70vh;
+}
+
+.hero img{
+width:260px;
+border-radius:24px;
+margin-top:25px;
+box-shadow:0 0 35px rgba(0,0,0,0.4);
+}
+
+.main-title{
+font-size:120px;
+letter-spacing:6px;
+font-family:'Metal Mania', 'Cinzel', serif;
+margin:-10px 0 10px;
+}
+
+.shop-preview{
+margin-top:20px;
+width:100%;
+max-width:1100px;
+}
+
+section#contact{
+flex-direction:column;
+align-items:center;
+text-align:center;
+max-width:560px;
+margin:0 auto;
+gap:16px;
+}
+
+section#contact.active{
+display:flex;
+}
+
+section#contact input,
+section#contact textarea,
+section#contact .info-box,
+section#contact button{
+width:100%;
+max-width:500px;
+}
+
+section#contact button{
+margin-top:20px;
+}
+
+section#contact .info-box{
+margin-top:24px;
+}
+
+section#checkout .info-box{
+margin-bottom:18px;
+}
+
+section#checkout button{
+margin-top:12px;
+}
+
+.preview-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+}
+
+.preview-header h2{
+margin:0;
+font-size:32px;
+letter-spacing:2px;
+}
+
+.preview-controls{
+display:flex;
+gap:10px;
+}
+
+.preview-controls button{
+width:42px;
+height:42px;
+border:none;
+border-radius:14px;
+background:rgba(120,3,3,0.95);
+color:white;
+cursor:pointer;
+font-size:18px;
+}
+
+.preview-track{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:18px;
+align-items:stretch;
+}
+
+.preview-card {
+min-height: 300px;
+}
+
+.preview-card{
+background:rgba(255,255,255,0.08);
+border-radius:24px;
+overflow:hidden;
+padding:16px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.preview-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+background:#222;
+border-radius:18px;
+}
+
+.preview-card h3{
+margin:14px 0 8px;
+font-size:18px;
+}
+
+.preview-card p{
+margin:0;
+font-size:14px;
+}
+
+.preview-card .price{
+margin-top:10px;
+font-weight:700;
+}
+
+@media (max-width:768px){
+section#home{
+background-image:url("./Batibat%20mobile%20logo.png");
+background-size:100% auto;
+background-position:center top;
+}
+
+.preview-track{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(5,minmax(0,1fr));
+gap:25px;
+}
+
+.category-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+  overflow: hidden;
+}
+
+#categories{
+display:grid;
+grid-template-columns:1fr;
+gap:34px 28px;
+align-items:start;
+}
+
+.shop-category{
+min-width:0;
+}
+
+.subcategory-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:28px;
+}
+
+.subcategory-section{
+min-width:0;
+}
+
+.shop-menu{
+position:relative;
+}
+
+.shop-dropdown{
+display:none;
+position:absolute;
+top:100%;
+left:0;
+min-width:190px;
+padding:8px;
+background:#232530;
+border:1px solid rgba(255,255,255,0.12);
+box-shadow:0 12px 24px rgba(0,0,0,0.3);
+z-index:1000;
+}
+
+.shop-menu:hover .shop-dropdown,
+.shop-menu:focus-within .shop-dropdown{
+display:grid;
+gap:4px;
+}
+
+.shop-dropdown button{
+width:100%;
+padding:10px 12px;
+border:0;
+background:transparent;
+color:white;
+text-align:left;
+font:inherit;
+cursor:pointer;
+}
+
+.shop-dropdown button:hover,
+.shop-dropdown button:focus{
+background:#780303;
+outline:none;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+border-radius:24px;
+overflow:hidden;
+backdrop-filter:blur(12px);
+transition:0.3s ease;
+min-height: 360px;
+display:flex;
+flex-direction:column;
+}
+
+.card:hover{
+transform:translateY(-8px) scale(1.02);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+background:#222;
+}
+
+.product-gallery{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:8px;
+padding:12px 12px 0;
+}
+
+.product-gallery figure{
+min-width:0;
+margin:0;
+}
+
+.product-image-wrapper{
+position:relative;
+}
+
+.product-image-button{
+display:block;
+width:100%;
+padding:0;
+border:0;
+background:transparent;
+cursor:pointer;
+}
+
+.product-image-button:focus-visible{
+outline:2px solid white;
+outline-offset:2px;
+border-radius:12px;
+}
+
+.product-image-wrapper{
+position:relative;
+}
+
+.product-image-next{
+position:absolute;
+right:12px;
+bottom:12px;
+width:36px;
+height:36px;
+border:0;
+border-radius:50%;
+background:rgba(120,3,3,0.9);
+color:white;
+font-size:20px;
+line-height:1;
+cursor:pointer;
+box-shadow:0 10px 24px rgba(0,0,0,0.32);
+opacity:0;
+transform:translateY(8px);
+transition:opacity 0.2s ease, transform 0.2s ease;
+}
+
+.product-image-wrapper:hover .product-image-next,
+.product-image-wrapper:focus-within .product-image-next{
+opacity:1;
+transform:translateY(0);
+}
+
+.product-gallery img,
+.product-image-button img{
+height:180px;
+object-fit:contain;
+border-radius:12px;
+}
+
+.product-image-button .product-image,
+.product-image {
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:12px;
+display:block;
+background:#222;
+}
+
+.image-viewer-next{
+position:absolute;
+right:18px;
+bottom:18px;
+padding:10px 16px;
+border:0;
+border-radius:999px;
+background:rgba(120,3,3,0.95);
+color:white;
+font-size:12px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 12px 28px rgba(0,0,0,0.35);
+}
+
+.product-gallery figcaption{
+padding-top:6px;
+font-size:11px;
+text-align:center;
+opacity:0.8;
+}
+
+.image-viewer{
+width:min(92vw,1000px);
+max-width:none;
+max-height:92vh;
+padding:48px 16px 16px;
+border:1px solid rgba(255,255,255,0.2);
+border-radius:18px;
+background:#232530;
+color:white;
+}
+
+.image-viewer::backdrop{
+background:rgba(0,0,0,0.85);
+backdrop-filter:blur(4px);
+}
+
+.image-viewer img{
+display:block;
+width:100%;
+height:auto;
+max-height:calc(92vh - 80px);
+object-fit:contain;
+}
+
+.image-viewer-close{
+position:absolute;
+top:10px;
+right:12px;
+width:36px;
+height:36px;
+border:0;
+border-radius:50%;
+background:rgba(255,255,255,0.12);
+color:white;
+font-size:24px;
+cursor:pointer;
+}
+
+.image-viewer-close:hover,
+.image-viewer-close:focus-visible{
+background:#780303;
+}
+
+.card-content{
+padding:18px;
+display:flex;
+flex-direction:column;
+flex:1;
+}
+
+.product-description{
+margin:8px 0;
+font-size:13px;
+opacity:0.75;
+}
+
+.subcategory-title{
+margin:26px 0 14px 12px;
+padding-left:14px;
+border-left:3px solid rgba(190,80,80,0.8);
+font-size:18px;
+letter-spacing:1px;
+color:rgba(255,255,255,0.82);
+}
+
+.category-title{
+margin:42px 0 20px;
+padding-bottom:12px;
+border-bottom:1px solid rgba(255,255,255,0.18);
+font-size:30px;
+letter-spacing:2px;
+}
+
+.category-more{
+display:block;
+width:max-content;
+margin:12px 0 0;
+padding:8px 14px;
+font-size:12px;
+box-shadow:none;
+}
+
+.variant-label{
+display:flex;
+flex-direction:column;
+gap:6px;
+margin-top:12px;
+font-size:13px;
+}
+
+.variant-select{
+width:100%;
+padding:10px;
+border:1px solid rgba(255,255,255,0.12);
+border-radius:10px;
+background:#232530;
+color:white;
+}
+
+.buy-btn{
+width:100%;
+margin-top:auto;
+background:#780303;
+border:none;
+color:white;
+padding:12px;
+border-radius:12px;
+cursor:pointer;
+}
+
+.buy-btn.is-disabled,
+.buy-btn:disabled{
+background:#5a5a5a;
+cursor:not-allowed;
+opacity:0.75;
+}
+
+.product-stock{
+margin:10px 0 0;
+padding:6px 10px;
+display:inline-flex;
+align-items:center;
+width:auto;
+border-radius:999px;
+background:rgba(255,255,255,0.08);
+color:#f7e8d3;
+font-size:12px;
+font-weight:700;
+letter-spacing:0.03em;
+}
+
+.product-stock.sold-out{
+background:rgba(204,102,102,0.18);
+color:#ffd3d3;
+border:1px solid rgba(255,170,170,0.25);
+font-weight:700;
+}
+
+.info-box,.cart-card{
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:18px;
+margin-top:20px;
+}
+
+.faq-wrap,
+.info-wrap,
+.contact-wrap,
+.cart-wrap{
+  display:grid;
+  gap:24px;
+}
+
+.faq-wrap{
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+}
+
+.info-wrap,
+.contact-wrap,
+.cart-wrap{
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+}
+
+.cart-wrap{
+  grid-template-columns:1fr;
+}
+
+.faq-item,
+.story-card,
+.contact-card,
+.cart-card,
+.order-summary{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
+}
+
+.faq-item h3,
+.story-card h2,
+.contact-card h2,
+.order-summary h3,
+#cart h1,
+#faq h1,
+#info h1,
+#contact h1{
+  margin-top:0;
+}
+
+.faq-item h3{
+  margin-bottom:10px;
+  font-size:1.1rem;
+}
+
+.faq-item p,
+.story-card p,
+.contact-card p,
+.order-summary p,
+.cart-item p,
+.cart-item h3{
+  margin:0;
+}
+
+.story-card {
+  min-height: 100%;
+}
+
+.story-card p + p {
+  margin-top: 14px;
+}
+
+.contact-card,
+.order-summary{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.contact-form {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  width:100%;
+  max-width:none;
+}
+
+.contact-detail {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:14px;
+  color:#f5f5f5;
+}
+
+.order-summary {
+  position:static;
+}
+
+.order-summary .total-row,
+.cart-item {
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.order-summary .total-row {
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  margin-top:16px;
+}
+
+.cart-row {
+  display:grid;
+  gap:16px;
+}
+
+.cart-item {
+  align-items:center;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:14px 16px;
+}
+
+.cart-item .meta {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:1;
+}
+
+.cart-item img {
+  width:54px;
+  height:54px;
+  border-radius:12px;
+  object-fit:cover;
+  background:#222;
+}
+
+.cart-actions {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.qty-stepper {
+  display:inline-flex;
+  align-items:center;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.qty-stepper button,
+.remove-btn {
+  border:none;
+  background:rgba(120,3,3,0.9);
+  color:white;
+  cursor:pointer;
+}
+
+.qty-stepper button {
+  width:30px;
+  height:30px;
+  font-size:18px;
+}
+
+.qty-stepper span {
+  min-width:34px;
+  text-align:center;
+  font-size:14px;
+  font-weight:600;
+}
+
+.remove-btn {
+  padding:8px 10px;
+  border-radius:10px;
+  font-size:12px;
+}
+
+.qty-pill {
+  background:rgba(120,3,3,0.9);
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:12px;
+}
+
+input,textarea{
+width:100%;
+max-width:500px;
+padding:14px;
+border-radius:14px;
+border:none;
+margin-top:10px;
+background:rgba(255,255,255,0.08);
+color:white;
+}
+
+nav .nav-search{
+width:260px;
+}
+
+nav .nav-search input{
+max-width:100%;
+margin-top:0;
+}
+
+.search-box{
+max-width:520px;
+margin-bottom:20px;
+}
+
+textarea{
+height:150px;
+}
+
+.info-box p.section-title {
+font-size:1.05rem;
+font-weight:700;
+margin-top:1rem;
+}
+
+@media (max-width:1200px){
+  .category-row{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width:900px){
+  .category-row{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width:768px){
+nav{
+flex-direction:column;
+gap:12px;
+padding:14px 20px;
+}
+
+.nav-left{
+width:100%;
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:8px;
+}
+
+.nav-left > .nav-btn,
+.shop-menu > .nav-btn{
+width:100%;
+padding:10px 8px;
+font-size:13px;
+}
+
+.shop-menu{
+min-width:0;
+}
+
+.shop-dropdown{
+min-width:100%;
+}
+
+nav .nav-search{
+width:min(100%,400px);
+}
+
+.logo-box{
+width:44px;
+height:44px;
+}
+
+.main-title{
+font-size:42px;
+}
+
+section{
+padding:24px 20px;
+}
+
+.hero{
+min-height:45vh;
+}
+
+.category-row{
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap:16px;
+overflow:visible;
+}
+
+.card{
+min-height:0;
+}
+
+.card:hover{
+transform:none;
+}
+
+.product-gallery img{
+height:clamp(130px,40vw,180px);
+}
+
+.info-wrap,
+.contact-wrap,
+.cart-wrap{
+grid-template-columns:minmax(0,1fr);
+}
+
+.faq-wrap{
+grid-template-columns:minmax(0,1fr);
+}
+
+.faq-item,
+.story-card,
+.contact-card,
+.cart-card,
+.order-summary{
+padding:18px;
+}
+
+.cart-item{
+align-items:flex-start;
+flex-direction:column;
+}
+
+.cart-actions{
+width:100%;
+justify-content:space-between;
+}
+
+.image-viewer{
+width:calc(100vw - 24px);
+max-height:calc(100vh - 24px);
+padding:48px 10px 10px;
+}
+
+.image-viewer img{
+max-height:calc(100vh - 92px);
+}
+}
+
+@media (max-width:420px){
+nav{
+padding:12px 14px;
+}
+
+section{
+padding:20px 16px;
+}
+
+.preview-track{
+gap:12px;
+}
+
+.preview-card{
+min-height:250px;
+padding:12px;
+}
+
+.preview-card img{
+height:140px;
+}
+
+.preview-card h3{
+font-size:15px;
+overflow-wrap:anywhere;
+}
+
+.category-row{
+grid-template-columns:minmax(0,1fr);
+}
+
+.category-title{
+font-size:25px;
+margin-top:30px;
+}
+
+.card-content{
+padding:16px;
+}
+
+}
+
+.order-success-card{
+max-width:560px;
+margin:40px auto;
+padding:32px 28px;
+text-align:center;
+border-radius:18px;
+background:linear-gradient(135deg, rgba(30,76,42,0.95), rgba(21,49,41,0.95));
+border:1px solid rgba(136,224,149,0.45);
+box-shadow:0 16px 32px rgba(0,0,0,0.25);
+}
+
+.order-success-card h1{
+margin:0 0 14px;
+}
+
+.order-success-card p{
+margin:0 0 14px;
+line-height:1.6;
+}
+
+.order-success-id{
+font-size:20px;
+font-weight:700;
+color:#88e095;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<nav>
+
+<div class="nav-left">
+<button class="nav-btn" onclick="show('home')">Home</button>
+<div class="shop-menu">
+  <button class="nav-btn" onclick="show('shop')">Shop</button>
+  <div class="shop-dropdown" id="shopDropdown"></div>
+</div>
+<button class="nav-btn" onclick="show('faq')">FAQ</button>
+<button class="nav-btn" onclick="show('info')">Info</button>
+<button class="nav-btn" onclick="show('contact')">Contact</button>
+<button class="nav-btn" onclick="show('cart')">Cart</button>
+</div>
+
+<div class="nav-search">
+  <input id="shopSearch" placeholder="Search products..." oninput="searchShop()">
+</div>
+
+<div class="logo-box">
+  <img src="./1000023113.png" draggable="false">
+</div>
+
+</nav>
+
+<dialog class="image-viewer" id="imageViewer" aria-label="Product image viewer" onclick="closeImageViewerOnBackdrop(event)">
+  <button class="image-viewer-close" type="button" aria-label="Close image viewer" onclick="closeImageViewer()">×</button>
+  <img id="imageViewerImage" alt="">
+  <button class="image-viewer-next" id="imageViewerNext" type="button" aria-label="Next product image">Next</button>
+</dialog>
+
+<section id="home" class="active">
+
+<div class="hero">
+
+</div>
+
+<div class="shop-preview">
+  <div class="preview-header">
+    <h2>Shop Preview</h2>
+    <div class="preview-controls">
+      <button onclick="previewSlide(-1)" aria-label="Previous preview">‹</button>
+      <button onclick="previewSlide(1)" aria-label="Next preview">›</button>
+    </div>
+  </div>
+  <div class="preview-track" id="previewTrack"></div>
+  <button class="nav-btn" onclick="show('shop')">View all products</button>
+</div>
+
+</section>
+
+<section id="shop">
+<h1>Shop Collection</h1>
+<div id="categories"></div>
+</section>
+
+<section id="cart">
+<h1>Your Cart</h1>
+<div class="cart-wrap">
+  <div class="cart-row" id="cartItems"></div>
+  <aside class="order-summary">
+    <h3>Order Summary</h3>
+    <p>Subtotal: <strong id="subtotal">₱0.00</strong></p>
+    <p>Shipping: <strong>Calculated at checkout</strong></p>
+    <div class="total-row">
+      <span>Total</span>
+      <strong id="total">₱0.00</strong>
+    </div>
+    <button class="nav-btn" onclick="show('checkout')">Proceed to Checkout</button>
+  </aside>
+</div>
+</section>
+
+<section id="checkout">
+<h1>Checkout</h1>
+<div id="checkoutSuccessBanner" class="checkout-success-banner" aria-live="polite">
+  <strong>Order placed successfully!</strong>
+  Your order has been sent. Please check your email and send your payment proof to @bati.bat_co on Instagram.
+</div>
+<div class="contact-wrap">
+  <div class="contact-card">
+    <h2>Order Details</h2>
+    <div class="contact-form">
+      <input id="checkoutName" placeholder="Name">
+      <input id="checkoutInstagram" placeholder="Instagram Username (@username)">
+      <input id="checkoutEmail" type="email" placeholder="Email">
+      <input id="checkoutAddress" placeholder="Shipping Address">
+    </div>
+    <div class="info-box">
+      <p>Please do not forget to send screenshot of the submitted order and the GCash transaction as proof of payment on Instagram @bati.bat_co. Failing to comply voids the entire transaction.</p>
+    </div>
+    <button class="nav-btn" id="submitOrderBtn" onclick="submitOrder()">Submit Order</button>
+  </div>
+</div>
+</section>
+
+<section id="ordersuccess">
+  <div class="order-success-card">
+    <h1>Order placed successfully!</h1>
+    <p class="order-success-id" id="orderSuccessId"></p>
+    <p>Your order has been sent. Please check your email (and spam folder) for your order summary.</p>
+    <p>To confirm your order, send a screenshot of this page and your GCash payment to <strong>@bati.bat_co</strong> on Instagram. Orders without proof of payment will not be processed.</p>
+    <button class="nav-btn" type="button" onclick="show('home')">Back to Home</button>
+  </div>
+</section>
+
+<section id="faq">
+<h1>FAQ</h1>
+<div class="faq-wrap">
+  <div class="faq-item info-box">
+    <h3>Commissions & Pre-orders</h3>
+    <p class="section-title">COMMISSIONS</p>
+    <p>For commission inquiries, please send a message to @bati.bat_co on Instagram for faster communication.</p>
+
+    <p class="section-title">PRE-ORDERS</p>
+    <p>Pre-orders have a production time of 1-5 weeks depending on the complexity of the design and the volume of orders. Some items may be marked as made to order.</p>
+    <p>For further inquiries regarding pre-orders, please send a message to @bati.bat_co on Instagram for faster communication.</p>
+  </div>
+
+  <div class="faq-item info-box">
+    <h3>Shipping & Payment</h3>
+    <p class="section-title">PAYMENT METHODS</p>
+    <p>Payments can be made via GCash.</p>
+    <p>Please send proof of payment upon checkout to @bati.bat_co on Instagram. Orders with unsent receipts will not be processed.</p>
+
+    <p class="section-title">SHIPPING METHODS</p>
+    <p>(NATIONWIDE SHIPPING ONLY.)</p>
+    <p>Orders for on-hand items are shipped out every Friday. Tracking numbers will be sent to your provided Instagram account once your order has been picked up by the courier.</p>
+    <p>Regular courier shipping is done through J&T. Shipping rates vary depending on area/province. All orders are shipped from Navotas City, Metro Manila, Philippines.</p>
+    <p>For same-day delivery, you will be contacted through e-mail when the package is ready for shipment. Delivery will be booked and paid by the customer.</p>
+  </div>
+
+  <div class="faq-item info-box">
+    <h3>Refund Policy</h3>
+    <p>Returns are allowed for damaged items to be repaired or replaced, with shipping fees to be shouldered by seller.</p>
+    <p>Returns will only be entertained if video and photo evidence of items being unwrapped is provided.</p>
+    <p>Please send concerns and requests to @bati.bat_co on Instagram.</p>
+    <p>Refunds will not be entertained.</p>
+  </div>
+</div>
+</section>
+
+<section id="info">
+<div class="info-wrap">
+  <div class="story-card">
+    <h2>About BATI.BAT</h2>
+
+    <p>
+    BATI.BAT is a creative craft brand rooted in Filipino identity, mythology, and introspective storytelling. The name is derived from the Philippine mythological creature Batibat, often described in folklore as a demon associated with sleep paralysis. In traditional narratives, the Batibat is feared—appearing in moments between sleep and waking, where dreams blur with reality.
+    </p>
+
+    <p>
+    The name comes from Batibat, a creature from Philippine folklore associated with sleep paralysis and the strange space between dreaming and waking. Rather than portraying the Batibat solely as something frightening, BATI.BAT reimagines it as a symbol of the subconscious—where imagination, darkness, vulnerability, curiosity, and creativity meet.
+    </p>
+
+    <p>
+    The things I create and curate are inspired by these ideas. Some pieces are handmade by me, while others are carefully sourced or selected because they fit the world, mood, or stories behind BATI.BAT. Rather than limiting the shop to one type of product, I want it to be a space where different objects, artworks, collectibles, and creative finds can exist together.
+    </p>
+
+    <p>
+    Much of BATI.BAT's visual direction comes from Philippine mythology and my own experiences with dreams, particularly the strange and surreal imagery that comes from nightmares. I like taking things that might initially feel unsettling, unfamiliar, or strange and turning them into something playful, beautiful, meaningful, or simply worth keeping.
+    </P>
+
+    <p>
+      BATI.BAT is ultimately a collection of things I find interesting enough to share—whether I made them myself or found them somewhere along the way.
+    </p>
+  </div>
+
+  <div class="story-card">
+    <h2>About the Artist</h2>
+
+    <p>
+    Hi! I'm Aesa, a 23-year-old artist from Metro Manila.
+    </p>
+
+    <p>
+    I started my first small shop in 2022 under the name Moirae, where I sold crochet pieces alongside a small baking business I shared with my sister. It began quite simply—I wanted to make things for the people I cared about and, eventually, share them with others.
+    </p>
+
+    <p>
+    As the years went by, I began taking on commissions and selling more of my work. I was grateful for the opportunity to make things that people enjoyed, but balancing the shop with college eventually became overwhelming. I also realized that working mostly on commissions left me with less time and space to explore my own ideas.
+    </p>
+
+    <p>
+    This led me to rethink what I wanted my shop to be. Rather than limiting myself to one kind of product, I wanted to create a space that could grow and change with my interests.
+    </p>
+
+    <p>
+    That became BATI.BAT.
+    </p>
+
+    <p>
+    BATI.BAT is a personal creative shop inspired by Filipino mythology, folklore, dreams, and the things that capture my imagination. Some pieces are made by me, while others are sourced or carefully chosen because I feel they belong in the world I am building with the shop.
+    </p>
+
+    <p>
+    I don't want BATI.BAT to be limited to a single medium or category. I simply want it to be a place where I can share things I find meaningful, interesting, strange, or beautiful.
+    </p>
+
+    <p>
+    It is a small, one-person shop, and I hope it can grow naturally as I do.
+    </p>
+  </div>
+</div>
+</section>
+
+<section id="contact">
+<h1>Contact</h1>
+<div class="contact-wrap">
+  <div class="contact-card">
+    <h2>Send a message</h2>
+    <div class="contact-form">
+      <input id="contactName" placeholder="Name">
+      <input id="contactEmail" type="email" placeholder="Email">
+      <textarea id="contactMessage" placeholder="Message"></textarea>
+      <button class="nav-btn" type="button" onclick="submitContactMessage()">Send Message</button>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <h2>Reach out</h2>
+    <div class="contact-detail"><strong>Instagram:</strong> @bati_bat.co</div>
+    <div class="contact-detail"><strong>Email:</strong> <a href="mailto:contact.batibatco@gmail.com" style="color:#fff;">contact.batibatco@gmail.com</a></div>
+    <div class="contact-detail"><strong>Response time:</strong> usually within 24–48 hours</div>
+    <div class="contact-detail"><strong>For orders:</strong> include product name and proof of payment</div>
+    <div class="info-box">
+      <p>For quick questions about commissions, shipping, or custom orders, send a DM on Instagram or email us directly. We’ll get back to you as soon as possible.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<script>
+function show(id){
+
+  document.querySelectorAll("section")
+  .forEach(s=>s.classList.remove("active"));
+
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.classList.add("active");
+
+  if (id !== 'checkout') {
+    hideCheckoutSuccess();
+  }
+
+  if(id==="shop") {
+    refreshInventory().finally(() => renderShop());
+  }
+  if(id==="home") renderHomePreview();
+  if(id==="cart") renderCart();
+
+}
+
+let data={
+"Pins":[],
+"Accessories":[],
+"Ashtray":[],
+"Plushies":[],
+"Crochet":[],
+"Clay":[],
+"Notepads":[]
+}; 
+
+function itemImage(folder, filename){
+  const normalizedFolder = String(folder || '').trim();
+  const lowerFolder = normalizedFolder.toLowerCase();
+  const rootLevelFolders = new Set(['pdd', 'pins', 'notepads', 'notepad', 'items']);
+
+  if (rootLevelFolders.has(lowerFolder)) {
+    return `./${encodeURIComponent(filename)}`;
+  }
+
+  const folderPath = lowerFolder === 'clay'
+    ? 'CLAY'
+    : lowerFolder === 'crochet'
+      ? 'Crochet'
+      : normalizedFolder === 'ITEMS'
+        ? 'ITEMS'
+        : `ITEMS/${normalizedFolder}`;
+
+  return `./${folderPath}/${encodeURIComponent(filename)}`;
+}
+
+function openImageViewer(src, alt, images = [], currentIndex = 0){
+  const viewer = document.getElementById('imageViewer');
+  const image = document.getElementById('imageViewerImage');
+  const nextBtn = document.getElementById('imageViewerNext');
+
+  const imageList = Array.isArray(images) && images.length ? images : [{ src, alt }];
+  viewer.dataset.images = JSON.stringify(imageList);
+  viewer.dataset.currentIndex = String(currentIndex);
+  image.src = src;
+  image.alt = alt;
+
+  if (nextBtn) {
+    nextBtn.style.display = imageList.length > 1 ? 'block' : 'none';
+    nextBtn.onclick = () => {
+      const all = JSON.parse(viewer.dataset.images || '[]');
+      if (!all.length) return;
+      const current = Number(viewer.dataset.currentIndex || 0);
+      const nextIndex = (current + 1) % all.length;
+      const next = all[nextIndex];
+      viewer.dataset.currentIndex = String(nextIndex);
+      image.src = next.src;
+      image.alt = next.alt || next.label || 'Product image';
+    };
+  }
+
+  viewer.showModal();
+}
+
+function cyclePanikiImage(button){
+  const allImages = JSON.parse(button.dataset.images || '[]');
+  if (!allImages.length) return;
+
+  let currentIndex = Number(button.dataset.currentIndex || 0);
+  currentIndex = (currentIndex + 1) % allImages.length;
+  button.dataset.currentIndex = String(currentIndex);
+
+  const image = button.querySelector('img');
+  if (!image) return;
+
+  image.src = allImages[currentIndex].src;
+  image.alt = allImages[currentIndex].alt || 'Paniki product image';
+}
+
+function openProductGallery(button, advance = false){
+  const allImages = JSON.parse(button.dataset.images || '[]');
+  if (!allImages.length) return;
+
+  let currentIndex = Number(button.dataset.currentIndex || 0);
+  if (advance) {
+    currentIndex = (currentIndex + 1) % allImages.length;
+  }
+
+  const currentImage = allImages[currentIndex];
+  openImageViewer(currentImage.src, currentImage.alt || currentImage.label || 'Product image', allImages, currentIndex);
+}
+
+function closeImageViewer(){
+  document.getElementById('imageViewer').close();
+}
+
+function closeImageViewerOnBackdrop(event){
+  if(event.target === event.currentTarget){
+    closeImageViewer();
+  }
+}
+
+document.addEventListener('keydown', event => {
+  if(event.key === 'Escape' && document.getElementById('imageViewer').open){
+    closeImageViewer();
+  }
+});
+
+Object.keys(data).forEach(cat=>{
+
+const prefix = cat.split(' ').map(w=>w[0]).join('').toUpperCase();
+
+for(let i=1;i<=3;i++){
+
+data[cat].push({
+id: prefix+"-"+String(i).padStart(3,'0'),
+name:"Product "+i,
+price:100,
+stock: 0,
+img:""
+});
+
+}
+
+});
+
+data.Pins = [
+  {
+    id: "PIN-EYE",
+    name: "Eye",
+    description: "Handmade / Painted",
+    variants: [
+      { id: "PIN-001", name: "V1", price: 75, stock: 0, img: itemImage("PINS", "Eye V1.png") },
+      { id: "PIN-002", name: "V2", price: 95, stock: 0, img: itemImage("PINS", "Eye V2.png") },
+      { id: "PIN-003", name: "V3", price: 75, stock: 0, img: itemImage("PINS", "Eye V3.png") },
+      { id: "PIN-004", name: "V4", price: 75, stock: 0, img: itemImage("PINS", "Eye V4.png") },
+      { id: "PIN-005", name: "V5: Red", price: 75, stock: 0, img: itemImage("PINS", "Eye V5.png") },
+      { id: "PIN-006", name: "V6", price: 95, stock: 0, img: itemImage("PINS", "Eye V6.png") }
+    ]
+  },
+  { id: "PIN-007", name: "Skull", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Skull.png") },
+  {
+    id: "PIN-SPIRAL",
+    name: "Spiral",
+    description: "Handmade / Painted",
+    variants: [
+      { id: "PIN-008", name: "Red", price: 75, stock: 0, img: itemImage("PINS", "Spiral V1.png") },
+      { id: "PIN-009", name: "White", price: 75, stock: 0, img: itemImage("PINS", "Spiral V2.png") }
+    ]
+  },
+  { id: "PIN-010", name: "Manananggal", description: "Handmade / Painted", price: 95, stock: 0, img: itemImage("PINS", "Manananggal.png") },
+  {
+    id: "PIN-TAROT",
+    name: "Tarot",
+    description: "Handmade / Painted",
+    variants: [
+      { id: "PIN-011", name: "The High Priestess", price: 95, stock: 0, img: itemImage("PINS", "Tarot_The High Priestess.png") },
+      { id: "PIN-012", name: "Three of Swords", price: 95, stock: 0, img: itemImage("PINS", "Tarot_Three of Swords.png") },
+      { id: "PIN-013", name: "Death", price: 95, stock: 0, img: itemImage("PINS", "Tarot_Death.png") }
+    ]
+  },
+  { id: "PIN-014", name: "Web", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Web.png") },
+  { id: "PIN-015", name: "Guts", description: "Handmade / Painted", price: 95, stock: 0, img: itemImage("PINS", "Guts.png") },
+  { id: "PIN-016", name: "Tooth", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Tooth.png") },
+  { id: "PIN-017", name: "Vinyl", description: "Handmade / Painted", price: 75, stock: 0, img: itemImage("PINS", "Vinyl.png") }
+];
+
+data.Keychains = [
+  { id: "KEY-001", name: "Dawn", description: "9 cm", price: 125, stock: 0, img: itemImage("PDD", "Dawn.png") },
+  {
+    id: "KEYCHAIN PB",
+    name: "Punk Bunnies",
+    img: itemImage("PDD", "Punk Bunnies.png"),
+    variants: [
+      { id: "KEY-002", name: "Rye", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Rye.png") },
+      { id: "KEY-003", name: "Mahrsy", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Mahrsy.png") },
+      { id: "KEY-004", name: "Wen", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Wen.png") },
+      { id: "KEY-005", name: "Eli", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Eli.png") },
+      { id: "KEY-006", name: "Alex", description: "14 cm (H) x 10 cm (W)", price: 125, stock: 0, img: itemImage("PDD", "Alex.png") }
+    ]
+  },
+  { id: "KEY-007", name: "Gear Shift Keychain", description: "Silver", price: 75, stock: 0, img: itemImage("PDD", "Gear Shift Keychain.png") },
+  {
+    id: "KEYCHAIN HEADPHONES",
+    name: "Headphones Keychain",
+    variants: [
+      { id: "KEY-008", name: "Black", price: 120, stock: 0, img: itemImage("PDD", "Headphones Charm.png") },
+      { id: "KEY-009", name: "Silver", price: 120, stock: 0, img: itemImage("PDD", "Headphones Charm Silver.png") }
+    ]
+  },
+    {
+    id: "KEYCHAIN MONSTER",
+    name: "Monster Energy Drink Keychain",
+    variants: [
+      { id: "KEY-010", name: "Black and White", description: "2.5 cm", price: 75, stock: 0, img: itemImage("PDD", "Black and White Monster.png") },
+      { id: "KEY-011", name: "Pink and White", description: "2.5 cm", price: 75, stock: 0, img: itemImage("PDD", "Pink and White Monster.png") }
+    ]
+  },
+ { id: "KEY-012", name: "Magyan", description: "14 cm (H) x 11 cm (W) · Can pull down hood", price: 360, stock: 0, img: itemImage("PDD", "Magyan.png") },
+{ id: "KEY-013", name: "Kimat", description: "14 cm · Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Kimat.png") },
+{ id: "KEY-014", name: "Muning", description: "13 cm · Includes leather collar, detachable goggles, and guitar hairpin", price: 175, stock: 0, img: itemImage("PDD", "Muning.png") },
+];
+
+data.Accessories = [
+  {
+    id: "ACC-001",
+    name: "Blade Hairclip",
+    price: 75,
+    stock: 0,
+    img: itemImage("PDD", "Blade Hairclip.png")
+  },
+  {
+    id: "LACE-NECKWEAR",
+    name: "Lace Neckwear",
+    variants: [
+      { id: "ACC-002", name: "Black", price: 300, stock: 0, img: itemImage("PDD", "Black Lace Neckwear.png") },
+      { id: "ACC-003", name: "White", price: 300, stock: 0, img: itemImage("PDD", "White Lace Neckwear.png") }
+    ]
+  },
+  {
+    id: "ACC-004",
+    name: "Black Heart Cross Choker",
+    price: 150,
+    stock: 0,
+    img: itemImage("PDD", "Black Heart Cross Choker.png")
+  },
+  {
+    id: "ACC-005",
+    name: "Black Cross Lace Choker",
+    price: 150,
+    stock: 0,
+    img: itemImage("PDD", "Black Cross Lace Choker.png")
+  },
+  {
+    id: "ACC-006",
+    name: "Paniki Necklace",
+    price: 160,
+    stock: 0,
+    img: itemImage("PDD", "Paniki Necklace.png")
+  },
+  {
+    id: "ACC-007",
+    name: "Heart Cross Necklace",
+    price: 160,
+    stock: 0,
+    img: itemImage("PDD", "Heart Cross Necklace.png")
+  },
+  {
+    id: "ACC-008",
+    name: "Heart Necklace",
+    price: 160,
+    stock: 0,
+    img: itemImage("PDD", "Heart Necklace.png")
+  },
+];
+
+data.Ashtray = [
+  { id: "ASH-001", name: "Hapo", price: 300, stock: 0, img: itemImage("PDD", "Hapo.png") },
+  { id: "ASH-002", name: "Pasyon", price: 200, stock: 0, img: itemImage("PDD", "Pasyon.png") }
+];
+
+data.Plushies = [
+  {
+    id: "PLU-001",
+    name: "Hello Kitty Chucky Plush Pillow",
+    description: "34 cm (H) x 44 cm (W)",
+    price: 650,
+    stock: 0,
+    img: itemImage("PDD", "Hello Kitty Chucky Plush & Pillow.png")
+  },
+   {
+    id: "PLU-002",
+    name: "Hello Kitty Chucky Plush",
+   description: " cm (H) x  cm (W)",
+   price: 320,
+   stock: 0,
+    img: itemImage("PDD", "HK Chucky Plush.png")
+  },
+    {
+    id: "PLU-003",
+    name: "Paniki",
+    description: "24 cm (H) x 23 cm (W)",
+    price: 220,
+    stock: 0,
+    img: itemImage("PDD", "Paniki.png"),
+    images: [
+      { src: itemImage("PDD", "Paniki.png"), label: "Front view" },
+      { src: itemImage("PDD", "Paniki 2.png"), label: "Upside Down" }
+    ]
+  }
+];
+
+data.Crochet = [
+  {
+    id: "CRO-POUCH-001",
+    subcategory: "Pouches",
+    name: "Blood Moon",
+    description: "Handmade / Crochet · 14 cm (H) x 12 cm (W)",
+    variants: [
+      { id: "CRO-001", name: "Classic Edition", price: 235, stock: 0, img: itemImage("Crochet", "Blood Moon V2.png") },
+      { id: "CRO-002", name: "Special Edition", price: 250, stock: 0, img: itemImage("Crochet", "Blood Moon V1.png") }
+    ]
+  },
+  {
+    id: "CRO-KEY-001",
+    subcategory: "Keychains",
+    name: "Voodoo Dolls",
+    description: "Handmade / Crochet · 10 cm",
+    variants: [
+      { id: "CRO-003", name: "Hatinggabi", price: 200, stock: 0, img: itemImage("Crochet", "Voodoo_hatinggabi.png") },
+      { id: "CRO-004", name: "Pula", price: 175, stock: 0, img: itemImage("Crochet", "Voodoo_pula.png") },
+      { id: "CRO-005", name: "Sumpa", price: 185, stock: 0, img: itemImage("Crochet", "Voodoo_sumpa.png") }
+    ]
+  },
+  { id: "CRO-006", subcategory: "Keychains", name: "Saragnayan", description: "Handmade / Crochet  · 6.5 cm", price: 250, stock: 0, img: itemImage("Crochet", "Saragnayan.png") },
+  { id: "CRO-007", subcategory: "Keychains", name: "Sukob", description: "Handmade / Crochet  · 9 cm", price: 200, stock: 0, img: itemImage("Crochet", "Sukob.png") }
+];
+
+data.Clay = [
+  {
+    id: "CLA-001",
+    name: "Bungisngis: Lighter Case",
+    description: "Handmade / Clay",
+    price: 300,
+    stock: 0,
+    img: itemImage("CLAY", "Bungisngis Lighter Holder.png")
+  }
+];
+
+data.Notepads = [
+  {
+    id: "NOT-001",
+    name: "Bakunawa",
+    description: "3x3 in. · 30 leaves",
+    price: 49,
+    stock: 0,
+    img: itemImage("Notepads", "Bakunawa Back  Cover.png"),
+    images: [
+      { src: itemImage("Notepads", "Bakunawa Back  Cover.png"), label: "Back Cover" },
+      { src: itemImage("Notepads", "Bakunawa Pages.png"), label: "Pages Design" }
+    ]
+  },
+  {
+    id: "NOT-002",
+    name: "Tiyanak",
+    description: "3x3 in. · 30 leaves",
+    price: 49,
+    stock: 0,
+    img: itemImage("Notepads", "Tiyanak Back Cover.png"),
+    images: [
+      { src: itemImage("Notepads", "Tiyanak Back Cover.png"), label: "Back Cover" },
+      { src: itemImage("Notepads", "Tiyanak Pages.png"), label: "Pages Design" }
+    ]
+  },
+  {
+    id: "NOT-003",
+    name: "Tikbalang",
+    description: "3x3 in. · 30 leaves",
+    price: 49,
+    stock: 0,
+    img: itemImage("Notepads", "Tikbalang Back Cover.png"),
+    images: [
+      { src: itemImage("Notepads", "Tikbalang Back Cover.png"), label: "Back Cover" },
+      { src: itemImage("Notepads", "Tikbalang Pages.png"), label: "Pages Design" }
+    ]
+  },
+  {
+    id: "NOT-004",
+    name: "Santelmo",
+    description: "3x3 in. · 30 leaves",
+    price: 49,
+    stock: 0,
+    img: itemImage("Notepads", "Santelmo Back Cover.png"),
+    images: [
+      { src: itemImage("Notepads", "Santelmo Back Cover.png"), label: "Back Cover" },
+      { src: itemImage("Notepads", "Santelmo Pages.png"), label: "Pages Design" }
+    ]
+  }
+];
+
+function normalizeCatalog(){
+  // Keep explicit item IDs from the sheet. Do not auto-rewrite IDs.
+  return;
+}
+
+let previewIndex = 0;
+let previewItems = [];
+let currentSearch = '';
+let cart = [];
+const GOOGLE_SHEET_URL = 'https://bati-bat-proxy.contact-batibatco.workers.dev/';
+const CONTACT_EMAIL = 'contact.batibatco@gmail.com';
+const CONTACT_EMAIL_URL = 'https://bati-bat-proxy.contact-batibatco.workers.dev/';
+
+
+function formatMoney(value){
+  return `₱${Number(value).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function buildPreviewItems(){
+  previewItems = [];
+  Object.keys(data).forEach(cat => {
+    data[cat].forEach(item => {
+      if (item.variants) {
+        item.variants.forEach(variant => {
+          previewItems.push({
+            ...variant,
+            name: `${item.name} ${variant.name}`,
+            description: item.description,
+            category: cat
+          });
+        });
+      } else {
+        previewItems.push({ ...item, category: cat });
+      }
+    });
+  });
+}
+
+function searchShop(){
+  currentSearch = document.getElementById('shopSearch').value.toLowerCase();
+  renderShop();
+}
+
+function renderHomePreview(){
+  if(!previewItems.length) buildPreviewItems();
+  for(let i = previewItems.length - 1; i > 0; i--){
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [previewItems[i], previewItems[randomIndex]] = [previewItems[randomIndex], previewItems[i]];
+  }
+  previewIndex = 0;
+  updatePreview();
+}
+
+function updatePreview(){
+  const track = document.getElementById('previewTrack');
+  if(!track || !previewItems.length) return;
+
+  track.innerHTML = '';
+  const count = 4;
+
+  for(let i=0;i<count;i++){
+    const index = (previewIndex + i) % previewItems.length;
+    const item = previewItems[index];
+    const card = document.createElement('div');
+    card.className = 'preview-card';
+    card.innerHTML = `
+      <img src="${item.img || ''}" alt="${item.name}">
+      <div>
+        <h3>${item.name}</h3>
+        <p>${item.category}</p>
+        <p class="price">₱${item.price}.00</p>
+      </div>
+    `;
+    track.appendChild(card);
+  }
+}
+
+function previewSlide(direction){
+  if(!previewItems.length) return;
+  previewIndex = (previewIndex + direction * 4 + previewItems.length) % previewItems.length;
+  updatePreview();
+}
+
+function getVariant(product, variantIndex = 0) {
+  return product.variants?.[variantIndex] || product;
+}
+
+function addToCartFromCard(button, cat, index) {
+  const select = button.closest('.card')?.querySelector('.variant-select');
+  addToCart(cat, index, select ? Number(select.value) : 0);
+}
+
+function getProductStock(product, variantIndex = 0) {
+  const variant = getVariant(product, variantIndex);
+  if (!variant) return 0;
+
+  const inventoryStock = Number(variant.stock ?? 0);
+  return Number.isFinite(inventoryStock) ? inventoryStock : 0;
+}
+
+function showToast(message, type = 'info', duration = 3500) {
+  const container = document.getElementById('toastContainer');
+  if (!container) {
+    alert(message);
+    return;
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  window.setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(12px)';
+    window.setTimeout(() => toast.remove(), 180);
+  }, duration);
+}
+
+function showCheckoutSuccess(message = 'Order placed successfully!') {
+  const banner = document.getElementById('checkoutSuccessBanner');
+  if (!banner) return;
+
+  banner.innerHTML = `<strong>${message}</strong>Your order has been sent. Please check your email and send your payment proof to @bati.bat_co on Instagram.`;
+  banner.classList.add('visible');
+}
+
+function hideCheckoutSuccess() {
+  const banner = document.getElementById('checkoutSuccessBanner');
+  if (!banner) return;
+  banner.classList.remove('visible');
+}
+
+function showError(message) {
+  showToast(message, 'error', 5000);
+}
+
+function showSuccess(message) {
+  showToast(message, 'success', 3500);
+}
+
+async function fetchJsonFromScript(url, init = {}) {
+  const response = await fetch(url, {
+    cache: 'no-store',
+    mode: 'cors',
+    credentials: 'omit',
+    ...init
+  });
+
+  const rawText = await response.text();
+  let result = {};
+
+  try {
+    result = rawText ? JSON.parse(rawText) : {};
+  } catch (error) {
+    result = {
+      success: false,
+      error: rawText || 'The Google Apps Script returned an invalid response.'
+    };
+  }
+
+  return { response, result, rawText };
+}
+
+function updateVariantCard(select) {
+  const option = select.options[select.selectedIndex];
+  const card = select.closest('.card');
+  if (!card || !option) return;
+
+  const productImage = card.querySelector('.product-image');
+  const productPrice = card.querySelector('.product-price');
+  const productStock = card.querySelector('.product-stock');
+  const buyBtn = card.querySelector('.buy-btn');
+  const stock = Number(option.dataset.stock || 0);
+
+  if (productImage) productImage.src = option.dataset.image || '';
+  if (productPrice) productPrice.textContent = `₱${option.dataset.price}.00`;
+
+  if (productStock) {
+    if (stock <= 0) {
+      productStock.textContent = 'Sold out';
+      productStock.classList.add('sold-out');
+    } else {
+      productStock.textContent = `Stock: ${stock}`;
+      productStock.classList.remove('sold-out');
+    }
+  }
+
+  if (buyBtn) {
+    const isSoldOut = stock <= 0;
+    buyBtn.disabled = isSoldOut;
+    buyBtn.textContent = isSoldOut ? 'Sold out' : 'Add to Cart';
+    buyBtn.classList.toggle('is-disabled', isSoldOut);
+  }
+}
+
+function renderVariantSelector(product) {
+  if (!product.variants) return '';
+
+  return `
+    <label class="variant-label">
+      Variation
+      <select class="variant-select" onchange="updateVariantCard(this)">
+        ${product.variants.map((variant, index) => `
+          <option value="${index}" data-image="${variant.img}" data-price="${variant.price}" data-stock="${variant.stock}">${variant.name}</option>
+        `).join('')}
+      </select>
+    </label>
+  `;
+}
+
+function addToCart(cat, index, variantIndex = 0) {
+  const product = data[cat][index];
+  if (!product) return;
+
+  const variant = getVariant(product, variantIndex);
+  const currentStock = Number(variant?.stock ?? 0);
+
+  if (!variant || currentStock <= 0) {
+    showError('This item is sold out.');
+    return;
+  }
+
+  const existingItem = cart.find(item => item.cat === cat && item.index === index && item.variantIndex === variantIndex);
+  const cartQtyForItem = cart.reduce((sum, item) => {
+    if (item.cat === cat && item.index === index && item.variantIndex === variantIndex) {
+      return sum + item.qty;
+    }
+    return sum;
+  }, 0);
+
+  if (existingItem && cartQtyForItem >= currentStock) {
+    showError(`Only ${currentStock} left in stock for this item.`);
+    return;
+  }
+
+  if (!existingItem) {
+    cart.push({
+      cat,
+      index,
+      variantIndex,
+      id: variant.id,
+      name: product.variants ? `${product.name} ${variant.name}` : product.name,
+      price: variant.price,
+      img: variant.img,
+      qty: 1
+    });
+  } else {
+    existingItem.qty += 1;
+  }
+
+  renderCart();
+}
+
+function changeQty(cat, index, variantIndex, delta) {
+  const item = cart.find(entry => entry.cat === cat && entry.index === index && entry.variantIndex === variantIndex);
+  if (!item) return;
+
+  item.qty += delta;
+
+  if (item.qty <= 0) {
+    cart = cart.filter(entry => !(entry.cat === cat && entry.index === index && entry.variantIndex === variantIndex));
+  }
+
+  renderCart();
+}
+
+function removeFromCart(cat, index, variantIndex) {
+  cart = cart.filter(entry => !(entry.cat === cat && entry.index === index && entry.variantIndex === variantIndex));
+  renderCart();
+}
+
+function renderCart(){
+  const cartItems = document.getElementById('cartItems');
+  const subtotalEl = document.getElementById('subtotal');
+  const totalEl = document.getElementById('total');
+
+  if (!cartItems || !subtotalEl || !totalEl) return;
+
+  if (!cart.length) {
+    cartItems.innerHTML = '<div class="info-box"><p>Your cart is empty.</p></div>';
+    subtotalEl.textContent = '₱0.00';
+    totalEl.textContent = '₱0.00';
+    return;
+  }
+
+  let subtotal = 0;
+  cartItems.innerHTML = '';
+
+  cart.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+
+    const itemTotal = item.price * item.qty;
+    subtotal += itemTotal;
+
+    row.innerHTML = `
+      <div class="meta">
+        <img src="${item.img || ''}" alt="${item.name}">
+        <div>
+          <h3>${item.name}</h3>
+          <p>${formatMoney(item.price)} each</p>
+        </div>
+      </div>
+      <div class="cart-actions">
+        <div class="qty-stepper">
+          <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, -1)">−</button>
+          <span>${item.qty}</span>
+          <button type="button" onclick="changeQty('${item.cat}', ${item.index}, ${item.variantIndex}, 1)">+</button>
+        </div>
+        <button class="remove-btn" type="button" onclick="removeFromCart('${item.cat}', ${item.index}, ${item.variantIndex})">Remove</button>
+        <p>${formatMoney(itemTotal)}</p>
+      </div>
+    `;
+
+    cartItems.appendChild(row);
+  });
+
+  subtotalEl.textContent = formatMoney(subtotal);
+  totalEl.textContent = formatMoney(subtotal);
+}
+
+function showOrderSuccess(orderId){
+  const idEl = document.getElementById('orderSuccessId');
+  if (idEl) idEl.textContent = orderId ? 'Order ID: ' + orderId : '';
+  show('ordersuccess');
+  window.scrollTo(0, 0);
+}
+
+let isSubmittingOrder = false;
+
+async function submitOrder(){
+  if (isSubmittingOrder) {
+    return;
+  }
+
+  if (!cart.length) {
+    showError('Your cart is empty.');
+    return;
+  }
+
+  for (const item of cart) {
+    const product = data[item.cat]?.[item.index];
+    if (!product) {
+      showError('One of the items in your cart is no longer available.');
+      return;
+    }
+
+    const variant = getVariant(product, item.variantIndex);
+    const availableStock = Number(variant?.stock ?? 0);
+
+    if (!variant || availableStock <= 0) {
+      showError(`${item.name} is sold out and cannot be checked out.`);
+      return;
+    }
+
+    if (item.qty > availableStock) {
+      showError(`${item.name} only has ${availableStock} left in stock.`);
+      return;
+    }
+  }
+
+  const name = document.getElementById('checkoutName')?.value.trim();
+  const instagram = document.getElementById('checkoutInstagram')?.value.trim();
+  const email = document.getElementById('checkoutEmail')?.value.trim();
+  const address = document.getElementById('checkoutAddress')?.value.trim();
+
+  if (!name || !instagram || !email || !address) {
+    showError('Please enter your name, Instagram username, email, and shipping address before submitting.');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('Please enter a valid email address before submitting.');
+    return;
+  }
+
+  const payload = {
+    action: 'order',
+    name,
+    instagram,
+    email,
+    address,
+    items: cart.map(item => ({
+      id: item.id,
+      name: item.name,
+      category: item.cat,
+      quantity: item.qty,
+      price: item.price
+    })),
+    total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+    status: 'Pending'
+  };
+
+  const submitBtn = document.getElementById('submitOrderBtn');
+  isSubmittingOrder = true;
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+  }
+
+  try {
+    const { response, result } = await fetchJsonFromScript(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+                if (response.ok && result.success === true) {
+      cart = [];
+      renderCart();
+      document.getElementById('checkoutName').value = '';
+      document.getElementById('checkoutInstagram').value = '';
+      document.getElementById('checkoutEmail').value = '';
+      document.getElementById('checkoutAddress').value = '';
+      showOrderSuccess(result.orderId);
+      refreshInventory().then(() => renderShop());
+      return;
+    }
+
+    const errorMessage = result?.error || `HTTP ${response?.status || 'unknown'} response from Apps Script.`;
+    throw new Error(errorMessage);
+  } catch (error) {
+    console.error(error);
+    const detail = error && error.message ? error.message : 'Unknown error';
+    showError('Apps Script deployment issue detected. Please redeploy the Web App and use the newest URL.\n' + detail.slice(0, 260));
+  } finally {
+    isSubmittingOrder = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Order';
+    }
+  }
+}
+
+async function submitContactMessage(){
+  const name = document.getElementById('contactName')?.value.trim();
+  const email = document.getElementById('contactEmail')?.value.trim();
+  const message = document.getElementById('contactMessage')?.value.trim();
+
+  if (!name || !email || !message) {
+    showError('Please fill in your name, email, and message before sending.');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('Please enter a valid email address before sending your message.');
+    return;
+  }
+
+  const payload = {
+    action: 'contact',
+    name,
+    email,
+    message,
+    to: CONTACT_EMAIL
+  };
+
+  if (CONTACT_EMAIL_URL) {
+    try {
+      const { response, result } = await fetchJsonFromScript(CONTACT_EMAIL_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok && result.success === true) {
+        showSuccess('Your message has been sent successfully.');
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactMessage').value = '';
+        return;
+      }
+
+      throw new Error(result?.error || 'Email script failed.');
+    } catch (error) {
+      console.error(error);
+      showError('The email script did not respond correctly. We will open your email app as a fallback.');
+    }
+  }
+
+  const subject = encodeURIComponent(`Message from ${name}`);
+  const body = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+  );
+
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${subject}&body=${body}`;
+  window.open(gmailUrl, '_blank');
+  showSuccess('Your email app has opened. Please click Send to complete the message.');
+}
+
+async function refreshInventory() {
+  try {
+    const inventoryUrl = `${GOOGLE_SHEET_URL}${GOOGLE_SHEET_URL.includes('?') ? '&' : '?'}action=inventory`;
+    const { response, result } = await fetchJsonFromScript(inventoryUrl, { method: 'GET' });
+    if (!response.ok) return false;
+
+    const inventory = Array.isArray(result?.inventory) ? result.inventory : [];
+    if (!inventory.length) return false;
+
+    const inventoryMap = new Map();
+    inventory.forEach(item => {
+      const id = String(item.id || '').trim();
+      const stock = Number(item.stock ?? 0);
+      if (id) inventoryMap.set(id, Number.isFinite(stock) ? stock : 0);
+    });
+
+    Object.keys(data).forEach(cat => {
+      data[cat].forEach(product => {
+        if (Array.isArray(product.variants)) {
+          product.variants.forEach(variant => {
+            const variantId = String(variant.id || '').trim();
+            if (inventoryMap.has(variantId)) {
+              variant.stock = Number(inventoryMap.get(variantId) || 0);
+            }
+          });
+        } else {
+          const productId = String(product.id || '').trim();
+          if (inventoryMap.has(productId)) {
+            product.stock = Number(inventoryMap.get(productId) || 0);
+          }
+        }
+      });
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Inventory refresh failed:', error);
+    return false;
+  }
+}
+
+function createProductCard(cat, productEntry){
+  const { item: p, index } = productEntry;
+  const card = document.createElement("div");
+  card.className = "card";
+  const variant = getVariant(p);
+  const currentStock = getProductStock(p, 0);
+  const isSoldOut = currentStock <= 0;
+  const productImages = p.images?.length
+    ? (p.name === 'Paniki'
+        ? `<div class="product-image-wrapper">
+            <button class="product-image-button" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">
+              <img class="product-image" src="${p.images[0].src}" alt="${p.name} - ${p.images[0].label}">
+            </button>
+            <button class="product-image-next" type="button" data-images='${JSON.stringify(p.images.map(image => ({ src: image.src, alt: `${p.name} - ${image.label}` }))).replace(/'/g, '&apos;')}' data-current-index="0" onclick="cyclePanikiImage(this)" aria-label="Next ${p.name} photo">→</button>
+          </div>`
+        : `<div class="product-gallery" role="group" aria-label="${p.name} photos">
+            ${p.images.map((image, imageIndex) => `
+              <figure class="product-image-wrapper">
+                <button class="product-image-button" type="button" data-images='${JSON.stringify(p.images.map(item => ({ src: item.src, alt: `${p.name} - ${item.label}` }))).replace(/'/g, '&apos;')}' data-current-index="${imageIndex}" onclick="openProductGallery(this)" aria-label="View ${p.name} ${image.label} larger">
+                  <img src="${image.src}" alt="${p.name} - ${image.label}">
+                </button>
+                <figcaption>${image.label}</figcaption>
+              </figure>
+            `).join('')}
+          </div>`)
+    : `<img class="product-image" src="${p.img || variant.img || ''}" alt="${p.name}">`;
+
+  card.innerHTML = `
+    ${productImages}
+    <div class="card-content">
+      <h3>${p.name}</h3>
+      ${p.description ? `<p class="product-description">${p.description}</p>` : ''}
+      ${renderVariantSelector(p)}
+      <p class="product-price">₱${variant.price}.00</p>
+      ${currentStock !== undefined && currentStock !== null ? `<p class="product-stock ${isSoldOut ? 'sold-out' : ''}">${isSoldOut ? 'Sold out' : `Stock: ${currentStock}`}</p>` : ''}
+      <button class="buy-btn ${isSoldOut ? 'is-disabled' : ''}" ${isSoldOut ? 'disabled' : ''} onclick="addToCartFromCard(this, '${cat}', ${index});">${isSoldOut ? 'Sold out' : 'Add to Cart'}</button>
+    </div>
+  `;
+
+  return card;
+}
+
+function getCategoryAnchor(category){
+  return `shop-category-${category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+}
+
+function openShopCategory(category){
+  show('shop');
+
+  const categorySection = document.getElementById(getCategoryAnchor(category));
+  if (categorySection) {
+    window.scrollTo({
+      top: categorySection.offsetTop - 100,
+      behavior: 'smooth'
+    });
+  }
+}
+
+function renderShopMenu(){
+  const dropdown = document.getElementById('shopDropdown');
+  if (!dropdown) return;
+
+  dropdown.innerHTML = '';
+  Object.keys(data).sort((a, b) => a.localeCompare(b)).forEach(category => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = category;
+    button.onclick = () => openShopCategory(category);
+    dropdown.appendChild(button);
+  });
+}
+
+function renderShop(){
+  const container = document.getElementById("categories");
+  container.innerHTML = "";
+  const searchQuery = currentSearch.trim();
+  let foundAny = false;
+
+  Object.keys(data).sort((a, b) => a.localeCompare(b)).forEach(cat => {
+    const filtered = data[cat].map((p, i) => ({ item: p, index: i })).filter(({ item }) => {
+      if (!searchQuery) return true;
+      return item.name.toLowerCase().includes(searchQuery)
+        || cat.toLowerCase().includes(searchQuery)
+        || item.subcategory?.toLowerCase().includes(searchQuery);
+    });
+
+    if (!filtered.length) return;
+    foundAny = true;
+
+    const categorySection = document.createElement("div");
+    categorySection.className = "shop-category";
+    categorySection.id = getCategoryAnchor(cat);
+
+    const title = document.createElement("h2");
+    title.className = "category-title";
+    title.innerText = cat;
+    categorySection.appendChild(title);
+
+    const subcategories = [...new Set(filtered.map(({ item }) => item.subcategory || ""))]
+      .sort((a, b) => a.localeCompare(b));
+    const subcategoryGrid = document.createElement("div");
+    subcategoryGrid.className = "subcategory-grid";
+
+    subcategories.forEach(subcategory => {
+      const group = filtered.filter(({ item }) => (item.subcategory || "") === subcategory);
+      const subcategorySection = document.createElement("div");
+      subcategorySection.className = "subcategory-section";
+
+      if (subcategory) {
+        const subtitle = document.createElement("h3");
+        subtitle.className = "subcategory-title";
+        subtitle.innerText = subcategory;
+        subcategorySection.appendChild(subtitle);
+      }
+
+      const row = document.createElement("div");
+      row.className = "category-row";
+      const initialVisible = 5;
+      group.slice(0, initialVisible).forEach(entry => row.appendChild(createProductCard(cat, entry)));
+
+      if (group.length > initialVisible) {
+        const viewMore = document.createElement("button");
+        viewMore.className = "nav-btn category-more";
+        viewMore.type = "button";
+        viewMore.textContent = "View more";
+        viewMore.onclick = () => {
+          row.innerHTML = "";
+          group.forEach(entry => row.appendChild(createProductCard(cat, entry)));
+          viewMore.remove();
+        };
+        subcategorySection.appendChild(row);
+        subcategorySection.appendChild(viewMore);
+      } else {
+        subcategorySection.appendChild(row);
+      }
+
+      subcategoryGrid.appendChild(subcategorySection);
+    });
+
+    categorySection.appendChild(subcategoryGrid);
+    container.appendChild(categorySection);
+  });
+
+  if (!foundAny) {
+    container.innerHTML = '<p>No products found.</p>';
+  }
+}
+
+renderShopMenu();
+renderHomePreview();
+refreshInventory().catch(() => {});
+
+// Auto-refresh stock every 60 seconds while the Shop page is open
+setInterval(async () => {
+  const shop = document.getElementById('shop');
+  if (!shop || !shop.classList.contains('active')) return;
+  const ok = await refreshInventory();
+  if (ok) renderShop();
+}, 60000);
+</script>
+
+</body>
+</html>
